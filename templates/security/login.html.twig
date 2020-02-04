@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+{% block title %}Login{% endblock %}
+{% block body %}
+
+<div class="hold-transition login-page">
+    <div class="login-box">
+        <!-- /.login-logo -->
+        <div class="card py-2 px-3">
+            <div class="card-body login-card-body">
+                <div class="login-logo">
+                    <a href="https://www.na.edu/" target="_blank">
+                        <img src="{{ asset('images/logo.png') }}" class="img img-responsive" height="200">
+                    </a>
+                </div>
+                <p class="h3 responsive text-center text-nau">
+                    <b>
+                        NAU IT
+                    </b>
+                </p>
+                <form method="post">
+                    {% if error %}
+                        <div class="alert alert-danger alert-sm lert-dismissible fade show p-2">
+                            {{ error.messageKey }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true" class="text-white">&times;</span>
+                            </button>
+                        </div>
+                    {% endif %}
+                    <div class="input-group mb-3">
+                        <input  type="email" value="{{ last_username }}" name="email" class="form-control" placeholder="Email" autofocus required>
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-envelope"></span>
+                            </div>
+                        </div>
+                        <div class="invalid-feedback">Example invalid feedback text</div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input type="password" name="password" class="form-control" placeholder="Password" required>
+                        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-lock"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="">
+                        <button type="submit" class="btn btn-primary btn-block"><b>Login</b></button>
+                    </div>
+                </form>
+            </div>
+            <!-- /.login-card-body -->
+        </div>
+    </div>
+</div>
+{% endblock %}

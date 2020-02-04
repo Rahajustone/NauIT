@@ -1,0 +1,10 @@
+/* Login page */
+.login-page, .register-page {
+    background-image: url("../../images/login-background.png");
+}
+.login-page .btn-primary {
+	background-color: #25366E;
+} 
+.login-page .text-nau {
+	color: #25366E;
+}
