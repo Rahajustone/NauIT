@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="hold-transition sidebar-mini">
+        <div class="wrapper">
+            {% include 'shared/navigation.html.twig' %}
+            {% include 'shared/sidebar.html.twig' %}
+
+            <div class="content-wrapper">
+                {% block content  %}
+
+                {% endblock %}
+            </div>
+
+            {% include 'shared/footer.html.twig' %}
+        </div>
+    </div>
+{% endblock %}

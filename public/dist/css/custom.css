@@ -8,3 +8,27 @@
 .login-page .text-nau {
 	color: #25366E;
 }
+
+/* Dashboard */
+.sidebar-dark-nauit {
+	background-color: #43425D;
+}
+
+.sidebar-dark-nauit .nav-item.active {
+    color: #fff;
+    background-color: #3C3B54;
+}
+.sidebar-dark-nauit .nav-item.active .fa {
+    color: #A3A0FB;
+}
+.sidebar-dark-nauit .nav-item.active {
+    border-left: 5px solid #A3A0FB;
+}
+
+.sidebar-dark-nauit .nav-item:hover {
+    border-left: 5px solid #615BFF;
+}
+
+.sidebar-dark-nauit .nav-item:hover > a {
+    color: #fff;
+}
