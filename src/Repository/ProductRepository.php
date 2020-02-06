@@ -20,14 +20,14 @@ class ProductRepository extends ServiceEntityRepository
         parent::__construct($registry, Product::class);
     }
 
-    public function findLatest(int $page = 1): Paginator
+    public function findLatest(int $page = 1, int $limit): Paginator
     {
         $qb = $this->createQueryBuilder('p')
             // ->orderBy('p.createdAt', 'DESC')
             // ->setParameter('now', new \DateTime())
         ;
 
-        return (new Paginator($qb))->paginate($page);
+        return (new Paginator($qb))->paginate($page, $limit);
     }
 
     // /**

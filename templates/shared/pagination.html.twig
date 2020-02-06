@@ -21,7 +21,7 @@
                     <span class="page-link">{{ i }} </span>
                 </li>
             {% else %}
-                <li class="page-item"><a class="page-link" href="{{ path(pagination_path, {page: i}) }}">{{ i }}</a></li>
+                <li class="page-item"><a class="page-link" href="{{ path(pagination_path, {page: i, limit: pagination.getPageSize}) }}">{{ i }}</a></li>
             {% endif %}
         {% endfor %}
 
@@ -32,7 +32,7 @@
                 </a>
             </li>
         {% else %}
-            <li class="page-item disabled"><span>{{ 'pagination.next'|trans }} <i class="fa fw fa-arrow-right"></i></span></li>
+            <li class="page-item disabled"><span class="page-link">»</span></li>
         {% endif %}
     </ul>
 {% endif %}

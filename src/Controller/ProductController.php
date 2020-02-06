@@ -20,15 +20,14 @@ use Symfony\Component\Routing\Annotation\Route;
 class ProductController extends AbstractController
 {
     /**
-     * @Route("/", defaults={"page": "1", "_format"="html"}, methods={"GET"}, name="product_index")
-     * @Route("/{$limit}")
-     * @Route("/page/{page<[1-9]\d*>}", defaults={"_format"="html"}, methods={"GET"}, name="product_index_paginated")
+     * @Route("/", defaults={"page": "1", "_format"="html", "limit" = "10"}, methods={"GET"}, name="product_index")
+     * @Route("/page/{page<[1-9]\d*>}/{limit?}", defaults={"limit" = "10", "_format"="html"}, methods={"GET"}, name="product_index_paginated")
      * @Cache(smaxage="10")
      */
-    public function index(Request $request, int $page, string $_format, ProductRepository $productRepository): Response
+    public function index(Request $request, int $page, int $limit, string $_format, ProductRepository $productRepository): Response
     {
         return $this->render('product/index.html.twig', [
-            'products' => $productRepository->findLatest($page),
+            'products' => $productRepository->findLatest($page, $limit),
         ]);
     }
 

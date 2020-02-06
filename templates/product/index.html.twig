@@ -82,15 +82,17 @@
                     <div class="card-header py-0">
                         <div class="row">
                             <div class="col-12 col-sm-3 py-1">
-                                <form class="form-inline">
-                                    <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Show entries:</label>
-                                    <select class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref">
-                                        <option value="10">10</option>
-                                        <option value="25">25</option>
-                                        <option value="50">50</option>
-                                        <option value="100">100</option>
-                                    </select>
-                                </form>
+                                <div class="btn-group my-1 mr-2">
+                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Show entries: {{ products.pageSize }}
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item" href="{{ path('product_index_paginated', { page: products.currentPage , limit: "10" }) }}">10</a>
+                                        <a class="dropdown-item" href="{{ path('product_index_paginated', { page: products.currentPage , limit: "25" }) }}">25</a>
+                                        <a class="dropdown-item" href="{{ path('product_index_paginated', { page: products.currentPage , limit: "50" }) }}">50</a>
+                                        <a class="dropdown-item" href="{{ path('product_index_paginated', { page: products.currentPage , limit: "100" }) }}">100</a>
+                                    </div>
+                                </div>
                             </div>
                             <div class="col-12 col-sm-6 py-1">
                                 <form class="form-inline justify-content-center">
