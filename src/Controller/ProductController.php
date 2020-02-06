@@ -23,15 +23,11 @@ class ProductController extends AbstractController
      * @Route("/", defaults={"page": "1", "_format"="html"}, methods={"GET"}, name="product_index")
      * @Route("/page/{page<[1-9]\d*>}", defaults={"_format"="html"}, methods={"GET"}, name="product_index_paginated")
      * @Cache(smaxage="10")
-     *
-     * NOTE: For standard formats, Symfony will also automatically choose the best
-     * Content-Type header for the response.
-     * See https://symfony.com/doc/current/quick_tour/the_controller.html#using-formats
      */
     public function index(Request $request, int $page, string $_format, ProductRepository $productRepository): Response
     {
         return $this->render('product/index.html.twig', [
-            'products' => $productRepository->findAll(),
+            'products' => $productRepository->findLatest($page),
         ]);
     }
 

@@ -2,9 +2,10 @@
 
 namespace App\Repository;
 
-use App\Entity\Product;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use App\Entity\Product;
+use App\Pagination\Paginator;
 
 /**
  * @method Product|null find($id, $lockMode = null, $lockVersion = null)
@@ -19,21 +20,12 @@ class ProductRepository extends ServiceEntityRepository
         parent::__construct($registry, Product::class);
     }
 
-    public function findLatest(int $page = 1, Tag $tag = null): Paginator
+    public function findLatest(int $page = 1): Paginator
     {
         $qb = $this->createQueryBuilder('p')
-            ->addSelect('a', 't')
-            // ->innerJoin('p.author', 'a')
-            // ->leftJoin('p.tags', 't')
-            ->where('p.publishedAt <= :now')
-            ->orderBy('p.publishedAt', 'DESC')
-            ->setParameter('now', new \DateTime())
+            // ->orderBy('p.createdAt', 'DESC')
+            // ->setParameter('now', new \DateTime())
         ;
-
-        if (null !== $tag) {
-            $qb->andWhere(':tag MEMBER OF p.tags')
-                ->setParameter('tag', $tag);
-        }
 
         return (new Paginator($qb))->paginate($page);
     }
