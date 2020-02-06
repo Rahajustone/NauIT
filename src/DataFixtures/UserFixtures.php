@@ -18,19 +18,19 @@ class UserFixtures extends Fixture
 
     public function load(ObjectManager $manager)
     {
-        foreach ($this->getUserData() as [$fullname, $username, $password, $email, $roles]) {
-            $user = new User();
-            $user->setFullName($fullname);
-            $user->setUsername($username);
-            $user->setPassword($this->passwordEncoder->encodePassword($user, $password));
-            $user->setEmail($email);
-            $user->setRoles($roles);
+        // foreach ($this->getUserData() as [$fullname, $username, $password, $email, $roles]) {
+        //     $user = new User();
+        //     $user->setFullName($fullname);
+        //     $user->setUsername($username);
+        //     $user->setPassword($this->passwordEncoder->encodePassword($user, $password));
+        //     $user->setEmail($email);
+        //     $user->setRoles($roles);
 
-            $manager->persist($user);
-            $this->addReference($username, $user);
-        }
+        //     $manager->persist($user);
+        //     $this->addReference($username, $user);
+        // }
 
-        $manager->flush();
+        // $manager->flush();
     }
 
     private function getUserData(): array

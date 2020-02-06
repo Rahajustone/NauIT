@@ -12,19 +12,19 @@ class ProductFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
 
-        for ($i = 0; $i < 200; $i++) {
-            $product = new Product();
-            $product->setName('Product '.$i);
-            $product->setIpAddress($this->generateIpAddress());
-            $product->setMacAdrress($this->generateMacAddress());
-            $product->setOs($this->generateOs());
-            $product->setPrice(mt_rand(10, 100));
-            $product->setUpdatedAt();
-            $product->setAuthor($this->getReference('user'));
-            $manager->persist($product);
-        }
+        // for ($i = 0; $i < 200; $i++) {
+        //     $product = new Product();
+        //     $product->setName('Product '.$i);
+        //     $product->setIpAddress($this->generateIpAddress());
+        //     $product->setMacAdrress($this->generateMacAddress());
+        //     $product->setOs($this->generateOs());
+        //     $product->setPrice(mt_rand(10, 100));
+        //     $product->setUpdatedAt();
+        //     $product->setAuthor($this->getReference('user'));
+        //     $manager->persist($product);
+        // }
 
-        $manager->flush();
+        // $manager->flush();
     }
 
     private function generateIpAddress()
