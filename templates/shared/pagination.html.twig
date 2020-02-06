@@ -1,0 +1,39 @@
+<div class="card-footer clearfix">
+{% if pagination.hasToPaginate %}
+    <ul class="pagination pagination-sm m-0 float-right">
+        {% if pagination.hasPreviousPage %}
+            <li class="page-item">
+                <a class="page-link" href="{{ path(pagination_path, {page: pagination.previousPage}) }}" rel="previous">
+                    «
+                </a>
+            </li>
+        {% else %}
+            <li class="page-item disabled">
+                <a class="page-link">
+                    «
+                </a>
+            </li>
+        {% endif %}
+
+        {% for i in 1..pagination.lastPage %}
+            {% if i == pagination.currentPage %}
+                <li class="page-item">
+                    <span class="page-link">{{ i }} </span>
+                </li>
+            {% else %}
+                <li class="page-item"><a class="page-link" href="{{ path(pagination_path, {page: i}) }}">{{ i }}</a></li>
+            {% endif %}
+        {% endfor %}
+
+        {% if pagination.hasNextPage %}
+            <li class="page-item">
+                <a class="page-link" href="{{ path(pagination_path, {page: pagination.nextPage}) }}" rel="next">
+                    »
+                </a>
+            </li>
+        {% else %}
+            <li class="page-item disabled"><span>{{ 'pagination.next'|trans }} <i class="fa fw fa-arrow-right"></i></span></li>
+        {% endif %}
+    </ul>
+{% endif %}
+</div>

@@ -146,45 +146,8 @@
                         </table>
                     </div>
                     <!-- /.card-body -->
-                    <div class="card-footer clearfix">
-                        {% if products.hasToPaginate %}
-                            <ul class="pagination pagination-sm m-0 float-right">
-                                {% if products.hasPreviousPage %}
-                                    <li class="page-item">
-                                        <a class="page-link" href="{{ path('product_index_paginated', {page: products.previousPage}) }}" rel="previous">
-                                            «
-                                        </a>
-                                    </li>
-                                {% else %}
-                                    <li class="page-item disabled">
-                                        <a class="page-link">
-                                            «
-                                        </a>
-                                    </li>
-                                {% endif %}
+                    {% include 'shared/pagination.html.twig' with {'pagination' : products, 'pagination_path' : 'product_index_paginated' } only %}
 
-                                {% for i in 1..products.lastPage %}
-                                    {% if i == products.currentPage %}
-                                        <li class="page-item">
-                                            <span class="page-link">{{ i }} </span>
-                                        </li>
-                                    {% else %}
-                                        <li class="page-item"><a class="page-link" href="{{ path('product_index_paginated', {page: i}) }}">{{ i }}</a></li>
-                                    {% endif %}
-                                {% endfor %}
-
-                                {% if products.hasNextPage %}
-                                    <li class="page-item">
-                                        <a class="page-link" href="{{ path('product_index_paginated', {page: products.nextPage}) }}" rel="next">
-                                            »
-                                        </a>
-                                    </li>
-                                {% else %}
-                                    <li class="page-item disabled"><span>{{ 'products.next'|trans }} <i class="fa fw fa-arrow-right"></i></span></li>
-                                {% endif %}
-                            </ul>
-                        {% endif %}
-                    </div>
                 </div>
             </div>
         </div>

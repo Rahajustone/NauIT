@@ -30,8 +30,6 @@ class ProductRepository extends ServiceEntityRepository
         return (new Paginator($qb))->paginate($page);
     }
 
-
-
     // /**
     //  * @return Product[] Returns an array of Product objects
     //  */

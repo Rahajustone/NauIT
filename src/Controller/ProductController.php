@@ -21,6 +21,7 @@ class ProductController extends AbstractController
 {
     /**
      * @Route("/", defaults={"page": "1", "_format"="html"}, methods={"GET"}, name="product_index")
+     * @Route("/{$limit}")
      * @Route("/page/{page<[1-9]\d*>}", defaults={"_format"="html"}, methods={"GET"}, name="product_index_paginated")
      * @Cache(smaxage="10")
      */
@@ -30,17 +31,6 @@ class ProductController extends AbstractController
             'products' => $productRepository->findLatest($page),
         ]);
     }
-
-
-    // /**
-    //  * @Route("/", name="product_index", methods={"GET"})
-    //  */
-    // public function index(ProductRepository $productRepository): Response
-    // {
-    //     return $this->render('product/index.html.twig', [
-    //         'products' => $productRepository->findAll(),
-    //     ]);
-    // }
 
     /**
      * @Route("/new", name="product_new", methods={"GET","POST"})
