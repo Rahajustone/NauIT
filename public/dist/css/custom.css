@@ -1,3 +1,35 @@
+/* Colors */
+.color-na-green {
+    color: #4AD991;
+}
+.color-na-green-background {
+    background-color: #4AD991;
+}
+
+.color-na-green-border {
+    border-color: #4AD991 !important;
+}
+
+.color-na-blue {
+    color: #A3A1FB;
+}
+
+.color-na-blue-background {
+    color: #A3A1FB;
+}
+
+.color-na-blue-border {
+    color: #A3A1FB;
+}
+
+.color-na-red {
+    color: #FF7285;
+}
+
+.color-na-red-border {
+    color: #FF7285;
+}
+
 /* Login page */
 .login-page, .register-page {
     background-image: url("../../images/login-background.png");
@@ -31,4 +63,13 @@
 
 .sidebar-dark-nauit .nav-item:hover > a {
     color: #fff;
+}
+
+/* Product Page */
+.info-box-icon.circle {
+    border-radius: 50%  !important;
+    border-style: solid;
+    border-size: 1px;
+    width: 60px;
+    height:  60px;
 }

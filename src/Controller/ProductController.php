@@ -5,6 +5,9 @@ namespace App\Controller;
 use App\Entity\Product;
 use App\Form\ProductType;
 use App\Repository\ProductRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,18 +15,36 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/product")
+ * @IsGranted("ROLE_ADMIN")
  */
 class ProductController extends AbstractController
 {
     /**
-     * @Route("/", name="product_index", methods={"GET"})
+     * @Route("/", defaults={"page": "1", "_format"="html"}, methods={"GET"}, name="product_index")
+     * @Route("/page/{page<[1-9]\d*>}", defaults={"_format"="html"}, methods={"GET"}, name="product_index_paginated")
+     * @Cache(smaxage="10")
+     *
+     * NOTE: For standard formats, Symfony will also automatically choose the best
+     * Content-Type header for the response.
+     * See https://symfony.com/doc/current/quick_tour/the_controller.html#using-formats
      */
-    public function index(ProductRepository $productRepository): Response
+    public function index(Request $request, int $page, string $_format, ProductRepository $productRepository): Response
     {
         return $this->render('product/index.html.twig', [
             'products' => $productRepository->findAll(),
         ]);
     }
+
+
+    // /**
+    //  * @Route("/", name="product_index", methods={"GET"})
+    //  */
+    // public function index(ProductRepository $productRepository): Response
+    // {
+    //     return $this->render('product/index.html.twig', [
+    //         'products' => $productRepository->findAll(),
+    //     ]);
+    // }
 
     /**
      * @Route("/new", name="product_new", methods={"GET","POST"})

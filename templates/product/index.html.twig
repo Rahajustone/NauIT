@@ -1,43 +1,162 @@
-{% extends 'base.html.twig' %}
-
+{% extends 'parent.html.twig' %}
 {% block title %}Product index{% endblock %}
-
-{% block body %}
-    <h1>Product index</h1>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>IpAddress</th>
-                <th>MacAdrress</th>
-                <th>Os</th>
-                <th>Price</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for product in products %}
-            <tr>
-                <td>{{ product.id }}</td>
-                <td>{{ product.name }}</td>
-                <td>{{ product.ipAddress }}</td>
-                <td>{{ product.macAdrress }}</td>
-                <td>{{ product.os }}</td>
-                <td>{{ product.price }}</td>
-                <td>
-                    <a href="{{ path('product_show', {'id': product.id}) }}">show</a>
-                    <a href="{{ path('product_edit', {'id': product.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="7">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('product_new') }}">Create new</a>
+{% block content %}
+<div class="content-header px-5">
+    <div class="container-fluid">
+        <div class="row my-3">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-dark">Products</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href=" {{ path('dashboard') }} ">Home</a></li>
+                    <li class="breadcrumb-item active">Products</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+        <div class="row mt-5">
+            <div class="col-md-4 col-sm-6 col-12">
+                <div class="info-box py-4">
+                    <span class="info-box-icon circle color-na-green-border">
+                        <i class="fas fa-dollar-sign color-na-green"></i>
+                    </span>
+                    <div class="info-box-content">
+                        <span class="info-box-number text color-na-green"> $50,410</span>
+                        <span class="info-box-text">Total Revenue</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                    <span class="info-box-icon">
+                        <a href="">
+                            <i class="fa fa-ellipsis-h text-secondary"></i>
+                        </a>
+                    </span>
+                </div>
+                <!-- /.info-box -->
+            </div>
+            <!-- /.col -->
+            <div class="col-md-4 col-sm-6 col-12">
+                <div class="info-box py-4">
+                    <span class="info-box-icon circle color-na-blue-border">
+                        <i class="fas fa-shopping-cart color-na-blue"></i>
+                    </span>
+                    <div class="info-box-content">
+                        <span class="info-box-number text color-na-blue"> $50,410</span>
+                        <span class="info-box-text">Total Products</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                    <span class="info-box-icon">
+                        <a href=""><i class="fa fa-ellipsis-h text-secondary"></i></a>
+                    </span>
+                </div>
+                <!-- /.info-box -->
+            </div>
+            <!-- /.col -->
+            <div class="col-md-4 col-sm-6 col-12">
+                <div class="info-box py-4">
+                    <span class="info-box-icon circle color-na-red-border">
+                        <i class="fas fa-digital-tachograph color-na-green color-na-red"></i>
+                        <!-- <i class="fas fa-digital-tachograph"></i>   -->
+                    </span>
+                    <div class="info-box-content">
+                        <span class="info-box-number text color-na-red"> № 100</span>
+                        <span class="info-box-text">Unusing products</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                    <span class="info-box-icon">
+                        <a href=""><i class="fa fa-ellipsis-h text-secondary"></i></a>
+                        <!-- <i class="far fa-envelope border color-na-green icon-green-border"></i> -->
+                    </span>
+                </div>
+                <!-- /.info-box -->
+            </div>
+            <!-- /.col -->
+        </div>
+    </div><!-- /.container-fluid -->
+</div>
+<section class="content px-5">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header py-0">
+                        <div class="row">
+                            <div class="col-12 col-sm-3 py-1">
+                                <form class="form-inline">
+                                    <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Show entries:</label>
+                                    <select class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref">
+                                        <option value="10">10</option>
+                                        <option value="25">25</option>
+                                        <option value="50">50</option>
+                                        <option value="100">100</option>
+                                    </select>
+                                </form>
+                            </div>
+                            <div class="col-12 col-sm-6 py-1">
+                                <form class="form-inline justify-content-center">
+                                    <div class="input-group my-1 mr-1" style="width: 100%;">
+                                        <input type="text" name="table_search" class="form-control" placeholder="Search">
+                                        <div class="input-group-append">
+                                            <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-12 col-sm-3 py-1">
+                                <div class="d-flex justify-content-end">
+                                    <a href="{{ path('product_new') }}" class="btn color-na-green-background my-1 pull-right"><i class="fa fa-plus text-white"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Name</th>
+                                    <th>IpAddress</th>
+                                    <th>MacAdrress</th>
+                                    <th>Os</th>
+                                    <th>Price</th>
+                                    <th>actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for product in products %}
+                                    <tr>
+                                        <td>{{ product.id }}</td>
+                                        <td>{{ product.name }}</td>
+                                        <td>{{ product.ipAddress }}</td>
+                                        <td>{{ product.macAdrress }}</td>
+                                        <td>{{ product.os }}</td>
+                                        <td>{{ product.price }}</td>
+                                        <td>
+                                            <a href="{{ path('product_show', {'id': product.id}) }}">show</a>
+                                            <a href="{{ path('product_edit', {'id': product.id}) }}">edit</a>
+                                        </td>
+                                    </tr>
+                                {% else %}
+                                    <tr>
+                                        <td colspan="7">no records found</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.card-body -->
+                    <div class="card-footer clearfix">
+                        <ul class="pagination pagination-sm m-0 float-right">
+                            <li class="page-item"><a class="page-link" href="#">«</a></li>
+                            <li class="page-item"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item"><a class="page-link" href="#">»</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 {% endblock %}
