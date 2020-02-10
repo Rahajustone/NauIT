@@ -7,6 +7,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use App\Entity\User;
 use App\Entity\Product;
+use App\Entity\Room;
 
 class AppFixtures extends Fixture
 {
@@ -20,7 +21,9 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         $this->loadUser($manager);
-        $this->loadProduct($manager);
+        // $this->loadProduct($manager);
+
+        $this->loadRooms($manager);
 
         $manager->flush();
     }
@@ -53,12 +56,25 @@ class AppFixtures extends Fixture
             $product->setOs($this->generateOs());
             $product->setPrice(mt_rand(10, 100));
             $product->setUpdatedAt();
-            $product->setAuthor($this->getReference('user'));
+            $product->setCreatedBy($this->getReference('user'));
             $manager->persist($product);
         }
 
         $manager->flush();
     }
+
+    public function loadRooms(ObjectManager $manager)
+    {
+        for ($i = 0; $i < 200; $i++) {
+            $product = new Room();
+            $product->setName('It'.$i);
+            $product->setCreatedBy($this->getReference('user'));
+            $product->setRoomNumber("Room".$i);
+            $manager->persist($product);
+        }
+    }
+
+
 
     private function generateIpAddress()
     {
