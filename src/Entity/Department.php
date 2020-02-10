@@ -47,6 +47,7 @@ class Department
     public function __construct()
     {
         $this->rooms = new ArrayCollection();
+        $this->createdAt = new \Datetime();
     }
 
     public function getId(): ?int

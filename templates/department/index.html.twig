@@ -1,0 +1,153 @@
+{% extends 'parent.html.twig' %}
+{% block title %}Department index{% endblock %}
+
+{% block content %}
+
+
+<div class="content-header px-5">
+    <div class="container-fluid">
+        <div class="row my-3">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-dark">departments</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href=" {{ path('dashboard') }} ">Home</a></li>
+                    <li class="breadcrumb-item active">departments</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+        <div class="row mt-5">
+            <div class="col-md-4 col-sm-6 col-12">
+                <div class="info-box py-4">
+                    <span class="info-box-icon circle color-na-green-border">
+                        <i class="fas fa-dollar-sign color-na-green"></i>
+                    </span>
+                    <div class="info-box-content">
+                        <span class="info-box-number text color-na-green"> $50,410</span>
+                        <span class="info-box-text">Total Revenue</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                    <span class="info-box-icon">
+                        <a href="">
+                            <i class="fa fa-ellipsis-h text-secondary"></i>
+                        </a>
+                    </span>
+                </div>
+                <!-- /.info-box -->
+            </div>
+            <!-- /.col -->
+            <div class="col-md-4 col-sm-6 col-12">
+                <div class="info-box py-4">
+                    <span class="info-box-icon circle color-na-blue-border">
+                        <i class="fas fa-shopping-cart color-na-blue"></i>
+                    </span>
+                    <div class="info-box-content">
+                        <span class="info-box-number text color-na-blue"> $50,410</span>
+                        <span class="info-box-text">Total departments</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                    <span class="info-box-icon">
+                        <a href=""><i class="fa fa-ellipsis-h text-secondary"></i></a>
+                    </span>
+                </div>
+                <!-- /.info-box -->
+            </div>
+            <!-- /.col -->
+            <div class="col-md-4 col-sm-6 col-12">
+                <div class="info-box py-4">
+                    <span class="info-box-icon circle color-na-red-border">
+                        <i class="fas fa-digital-tachograph color-na-green color-na-red"></i>
+                        <!-- <i class="fas fa-digital-tachograph"></i>   -->
+                    </span>
+                    <div class="info-box-content">
+                        <span class="info-box-number text color-na-red"> № 100</span>
+                        <span class="info-box-text">Unusing departments</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                    <span class="info-box-icon">
+                        <a href=""><i class="fa fa-ellipsis-h text-secondary"></i></a>
+                        <!-- <i class="far fa-envelope border color-na-green icon-green-border"></i> -->
+                    </span>
+                </div>
+                <!-- /.info-box -->
+            </div>
+            <!-- /.col -->
+        </div>
+    </div><!-- /.container-fluid -->
+</div>
+<section class="content px-5">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header py-0">
+                        <div class="row">
+                            <div class="col-12 col-sm-3 py-1">
+                                <div class="btn-group my-1 mr-2">
+                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Show entries: {{ departments.pageSize }}
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item" href="{{ path('department_index_paginated', { page: departments.currentPage , limit: "10" }) }}">10</a>
+                                        <a class="dropdown-item" href="{{ path('department_index_paginated', { page: departments.currentPage , limit: "25" }) }}">25</a>
+                                        <a class="dropdown-item" href="{{ path('department_index_paginated', { page: departments.currentPage , limit: "50" }) }}">50</a>
+                                        <a class="dropdown-item" href="{{ path('department_index_paginated', { page: departments.currentPage , limit: "100" }) }}">100</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6 py-1">
+                                <form class="form-inline justify-content-center">
+                                    <div class="input-group my-1 mr-1" style="width: 100%;">
+                                        <input type="text" name="table_search" class="form-control" placeholder="Search">
+                                        <div class="input-group-append">
+                                            <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-12 col-sm-3 py-1">
+                                <div class="d-flex justify-content-end">
+                                    <a href="{{ path('department_new') }}" class="btn color-na-green-background my-1 pull-right"><i class="fa fa-plus text-white"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Name</th>
+                                    <th>CreatedAt</th>
+                                    <th>UpdatedAt</th>
+                                    <th>actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% for department in departments.results %}
+                                <tr>
+                                    <td>{{ department.id }}</td>
+                                    <td>{{ department.Name }}</td>
+                                    <td>{{ department.createdAt ? department.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                                    <td>{{ department.updatedAt ? department.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                                    <td>
+                                        <a href="{{ path('department_show', {'id': department.id}) }}">show</a>
+                                        <a href="{{ path('department_edit', {'id': department.id}) }}">edit</a>
+                                    </td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="5">no records found</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

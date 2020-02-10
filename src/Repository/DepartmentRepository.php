@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Department;
+use App\Pagination\Paginator;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
@@ -17,6 +18,16 @@ class DepartmentRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Department::class);
+    }
+
+    public function findLatest(int $page = 1, int $limit): Paginator
+    {
+        $qb = $this->createQueryBuilder('p')
+            ->orderBy('p.createdAt', 'DESC')
+            // ->setParameter('now', new \DateTime())
+        ;
+
+        return (new Paginator($qb))->paginate($page, $limit);
     }
 
     // /**
