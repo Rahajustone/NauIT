@@ -8,6 +8,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use App\Entity\User;
 use App\Entity\Product;
 use App\Entity\Room;
+use App\Entity\Department;
 
 class AppFixtures extends Fixture
 {
@@ -21,9 +22,9 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         $this->loadUser($manager);
-        // $this->loadProduct($manager);
-
+        $this->loadProduct($manager);
         $this->loadRooms($manager);
+        $this->loadDepartment($manager);
 
         $manager->flush();
     }
@@ -71,6 +72,16 @@ class AppFixtures extends Fixture
             $product->setCreatedBy($this->getReference('user'));
             $product->setRoomNumber("Room".$i);
             $manager->persist($product);
+        }
+    }
+
+    public function loadDepartment(ObjectManager $manager)
+    {
+        for ($i = 0; $i < 200; $i++) {
+            $department = new Department();
+            $department->setName('Department -'.$i);
+            $department->setCreatedBy($this->getReference('user'));
+            $manager->persist($department);
         }
     }
 
