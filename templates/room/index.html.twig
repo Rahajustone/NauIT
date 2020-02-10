@@ -3,39 +3,101 @@
 {% block title %}Room index{% endblock %}
 
 {% block content %}
-    <h1>Room index</h1>
+    <div class="content-header px-5">
+        <div class="container-fluid">
+            <div class="row my-3">
+                <div class="col-sm-6">
+                    <h1 class="m-0 text-dark">Rooms</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href=" {{ path('dashboard') }} ">Home</a></li>
+                        <li class="breadcrumb-item active">rooms</li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div>
+    </div>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>CreatedAt</th>
-                <th>UpdatedAt</th>
-                <th>Room_number</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for room in rooms %}
-            <tr>
-                <td>{{ room.id }}</td>
-                <td>{{ room.name }}</td>
-                <td>{{ room.createdAt ? room.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ room.updatedAt ? room.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ room.roomNumber }}</td>
-                <td>
-                    <a href="{{ path('room_show', {'id': room.id}) }}">show</a>
-                    <a href="{{ path('room_edit', {'id': room.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="6">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+<section class="content px-5">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header py-0">
+                        <div class="row">
+                            <div class="col-12 col-sm-3 py-1">
+                                <div class="btn-group my-1 mr-2">
+                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Show entries: {{ rooms.pageSize }}
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item" href="{{ path('room_index_paginated', { page: rooms.currentPage , limit: "10" }) }}">10</a>
+                                        <a class="dropdown-item" href="{{ path('room_index_paginated', { page: rooms.currentPage , limit: "25" }) }}">25</a>
+                                        <a class="dropdown-item" href="{{ path('room_index_paginated', { page: rooms.currentPage , limit: "50" }) }}">50</a>
+                                        <a class="dropdown-item" href="{{ path('room_index_paginated', { page: rooms.currentPage , limit: "100" }) }}">100</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6 py-1">
+                                <form class="form-inline justify-content-center">
+                                    <div class="input-group my-1 mr-1" style="width: 100%;">
+                                        <input type="text" name="table_search" class="form-control" placeholder="Search">
+                                        <div class="input-group-append">
+                                            <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-12 col-sm-3 py-1">
+                                <div class="d-flex justify-content-end">
+                                    <a href="{{ path('room_new') }}" class="btn color-na-green-background my-1 pull-right"><i class="fa fa-plus text-white"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Name</th>
+                                    <th>Room Number</th>
+                                    <th>CreatedAt</th>
+                                    <th>UpdatedAt</th>
+                                    <th>actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% for room in rooms.results %}
+                                <tr>
+                                    <td>{{ room.id }}</td>
+                                    <td>{{ room.name }}</td>
+                                    <td>{{ room.roomNumber }}</td>
+                                    <td>{{ room.createdAt ? room.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                                    <td>{{ room.updatedAt ? room.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                                    <td>
+                                        {{ include('room/_delete_form.html.twig') }}
+                                        <a href="{{ path('room_show', {'id': room.id}) }}" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>
+                                        <a href="{{ path('room_edit', {'id': room.id}) }}" class="btn btn-warning btn-sm"><i class="text-white fa fa-pen"></i></a>
 
-    <a href="{{ path('room_new') }}">Create new</a>
+                                    </td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="6">no records found</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                        </div>
+                    <!-- /.card-body -->
+                    {% include 'shared/pagination.html.twig' with {'pagination' : rooms, 'pagination_path' : 'room_index_paginated' } only %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 {% endblock %}

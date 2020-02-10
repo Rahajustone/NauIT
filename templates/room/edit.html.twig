@@ -1,13 +1,31 @@
-{% extends 'base.html.twig' %}
+{% extends 'parent.html.twig' %}
 
 {% block title %}Edit Room{% endblock %}
 
-{% block body %}
-    <h1>Edit Room</h1>
+{% block content %}
+    <div class="content-header px-5">
+        <div class="container-fluid">
+            <div class="row my-3">
+                <div class="col-sm-6">
+                    <h1 class="m-0 text-dark">Edit New Room</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href=" {{ path('dashboard') }} ">Home</a></li>
+                        <li class="breadcrumb-item"><a href=" {{ path('room_index') }} ">Room</a></li>
+                        <li class="breadcrumb-item active">Edit Room</li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div>
+    </div>
 
-    {{ include('room/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('room_index') }}">back to list</a>
-
-    {{ include('room/_delete_form.html.twig') }}
+    <section class="content px-5">
+        <div class="container-fluid">
+            <div class="row">
+                {{ include('room/_form.html.twig', {'button_label': 'Update'}) }}
+                <a class="btn btn-info" href="{{ path('room_index') }}"> <i class="fa fa-arrow-back"></i> back to list</a>
+            </div>
+        </div>
+    </section>
 {% endblock %}

@@ -5,6 +5,9 @@ namespace App\Controller;
 use App\Entity\Room;
 use App\Form\RoomType;
 use App\Repository\RoomRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,16 +15,19 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/room")
+* @IsGranted("ROLE_ADMIN")
  */
 class RoomController extends AbstractController
 {
     /**
-     * @Route("/", name="room_index", methods={"GET"})
+     * @Route("/", defaults={"page": "1", "_format"="html", "limit" = "10"}, methods={"GET"}, name="room_index")
+     * @Route("/page/{page<[1-9]\d*>}/{limit?}", defaults={"limit" = "10", "_format"="html"}, methods={"GET"}, name="room_index_paginated")
+     * @Cache(smaxage="10")
      */
-    public function index(RoomRepository $roomRepository): Response
+    public function index(Request $request, int $page, int $limit, string $_format, RoomRepository $roomRepository): Response
     {
         return $this->render('room/index.html.twig', [
-            'rooms' => $roomRepository->findAll(),
+            'rooms' => $roomRepository->findLatest($page, $limit),
         ]);
     }
 
@@ -35,6 +41,8 @@ class RoomController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $room->setCreatedBy($this->getUser());
+            
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($room);
             $entityManager->flush();
@@ -67,6 +75,8 @@ class RoomController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $room->setUpdatedAt(new \Datetime());
+
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('room_index');

@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Room;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use App\Pagination\Paginator;
 
 /**
  * @method Room|null find($id, $lockMode = null, $lockVersion = null)
@@ -18,6 +19,18 @@ class RoomRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Room::class);
     }
+
+
+    public function findLatest(int $page = 1, int $limit): Paginator
+    {
+        $qb = $this->createQueryBuilder('p')
+            ->orderBy('p.createdAt', 'DESC')
+            // ->setParameter('now', new \DateTime())
+        ;
+
+        return (new Paginator($qb))->paginate($page, $limit);
+    }
+
 
     // /**
     //  * @return Room[] Returns an array of Room objects
