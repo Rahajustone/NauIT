@@ -91,12 +91,18 @@ class User implements UserInterface, \Serializable
      */
     private $products;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Room", mappedBy="createdBy")
+     */
+    private $rooms;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
         // TODO
         $this->updatedAt = new \DateTime();
         $this->products = new ArrayCollection();
+        $this->rooms = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -242,6 +248,37 @@ class User implements UserInterface, \Serializable
             // set the owning side to null (unless already changed)
             if ($product->getCreatedBy() === $this) {
                 $product->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Room[]
+     */
+    public function getRooms(): Collection
+    {
+        return $this->rooms;
+    }
+
+    public function addRoom(Room $room): self
+    {
+        if (!$this->rooms->contains($room)) {
+            $this->rooms[] = $room;
+            $room->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRoom(Room $room): self
+    {
+        if ($this->rooms->contains($room)) {
+            $this->rooms->removeElement($room);
+            // set the owning side to null (unless already changed)
+            if ($room->getCreatedBy() === $this) {
+                $room->setCreatedBy(null);
             }
         }
 

@@ -1,0 +1,48 @@
+<div class="col-md-9 col-sm-12 col-12">
+    <div class="card card">
+        <div class="card-header">
+            <h3 class="card-title">Create Room</h3>
+        </div>
+        <!-- /.card-header -->
+        <!-- form start -->
+        {{ form_start(form) }}
+            <div class="card-body">
+                {{ form_widget(form) }}
+            </div>
+            <!-- /.card-body -->
+            <div class="card-footer">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        {{ form_end(form) }}    
+    </div>
+</div>
+<div class="col-md-3 col-sm-12 col-12">
+    <div class="card card">
+        <div class="card-header">
+            <h3 class="card-title">Search Room</h3>
+        </div>
+        <!-- /.card-header -->
+        <!-- form start -->
+        <form role="form">
+            <div class="card-body">
+                <div class="form-group">
+                    <label>Room Name:</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-laptop"></i></span>
+                        </div>
+                        <input type="text" class="form-control" data-inputmask="'alias': 'ip'" data-mask="" im-insert="true">
+                    </div>
+                    <!-- /.input group -->
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary float-right">Submit</button>
+                </div>
+            </div>
+            <!-- /.card-body -->
+            <!-- <div class="card-footer py-1">
+                <button type="submit" class="btn btn-primary float-right">Submit</button>
+            </div> -->
+        </form>
+    </div>
+</div>
