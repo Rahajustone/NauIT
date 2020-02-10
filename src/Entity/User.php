@@ -96,6 +96,11 @@ class User implements UserInterface, \Serializable
      */
     private $rooms;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Department", mappedBy="createdBy")
+     */
+    private $departments;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
@@ -103,6 +108,7 @@ class User implements UserInterface, \Serializable
         $this->updatedAt = new \DateTime();
         $this->products = new ArrayCollection();
         $this->rooms = new ArrayCollection();
+        $this->departments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -279,6 +285,37 @@ class User implements UserInterface, \Serializable
             // set the owning side to null (unless already changed)
             if ($room->getCreatedBy() === $this) {
                 $room->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Department[]
+     */
+    public function getDepartments(): Collection
+    {
+        return $this->departments;
+    }
+
+    public function addDepartment(Department $department): self
+    {
+        if (!$this->departments->contains($department)) {
+            $this->departments[] = $department;
+            $department->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDepartment(Department $department): self
+    {
+        if ($this->departments->contains($department)) {
+            $this->departments->removeElement($department);
+            // set the owning side to null (unless already changed)
+            if ($department->getCreatedBy() === $this) {
+                $department->setCreatedBy(null);
             }
         }
 
