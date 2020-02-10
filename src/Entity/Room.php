@@ -44,6 +44,11 @@ class Room
      */
     private $room_number;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Department", inversedBy="rooms")
+     */
+    private $department;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
@@ -103,6 +108,18 @@ class Room
     public function setRoomNumber(string $room_number): self
     {
         $this->room_number = $room_number;
+
+        return $this;
+    }
+
+    public function getDepartment(): ?Department
+    {
+        return $this->department;
+    }
+
+    public function setDepartment(?Department $department): self
+    {
+        $this->department = $department;
 
         return $this;
     }
