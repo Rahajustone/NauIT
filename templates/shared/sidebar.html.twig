@@ -19,7 +19,10 @@
         <!-- Sidebar Menu -->
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column nav-flat" data-widget="treeview" role="menu" data-accordion="false">
-                <li class="nav-item active">
+
+                {% set current_path = app.request.get('_route') %}
+
+                <li class="nav-item  {% if 'dashboard' in current_path %}active{% endif %}">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fa fas fa-tachometer-alt"></i>
                         <p>
@@ -27,7 +30,7 @@
                         </p>
                     </a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item  {% if 'product' in current_path %}active{% endif %}">
                     <a href="{{ path('product_index') }}" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>
                         <p>
@@ -35,7 +38,7 @@
                         </p>
                     </a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item  {% if 'room' in current_path %}active{% endif %}">
                     <a href="{{ path('room_index') }}" class="nav-link">
                         <i class="nav-icon fas fa-home"></i>
                         <p>
@@ -43,15 +46,15 @@
                         </p>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-th"></i>
+                <li class="nav-item  {% if 'department' in current_path %}active{% endif %}">
+                    <a href="{{ path('department_index') }}" class="nav-link">
+                        <i class="nav-icon fas fa-building"></i>
                         <p>
-                            Product
+                            Department
                         </p>
                     </a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item  {% if current_path == '_list' %}active{% endif %}">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>
                         <p>
