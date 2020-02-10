@@ -23,7 +23,7 @@ class ProductRepository extends ServiceEntityRepository
     public function findLatest(int $page = 1, int $limit): Paginator
     {
         $qb = $this->createQueryBuilder('p')
-            // ->orderBy('p.createdAt', 'DESC')
+            ->orderBy('p.createdAt', 'DESC')
             // ->setParameter('now', new \DateTime())
         ;
 

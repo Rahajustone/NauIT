@@ -4,8 +4,6 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Security\Core\Security;
-
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProductRepository")
  */
@@ -71,6 +69,7 @@ class Product
     public function __construct()
     {
         $this->createdAt = new \DateTime();
+        $this->updatedAt = new \DateTime();
     }
 
     public function getId(): ?int
