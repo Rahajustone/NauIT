@@ -5,3 +5,4 @@ twig:
     exception_controller: null
     auto_reload: '%kernel.debug%'
     cache: false
+    form_themes: ['bootstrap_4_layout.html.twig']
