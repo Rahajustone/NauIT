@@ -64,6 +64,7 @@
                                     <th>Id</th>
                                     <th>Name</th>
                                     <th>Room Number</th>
+                                    <th>Department</th>
                                     <th>CreatedAt</th>
                                     <th>UpdatedAt</th>
                                     <th>actions</th>
@@ -75,6 +76,7 @@
                                     <td>{{ room.id }}</td>
                                     <td>{{ room.name }}</td>
                                     <td>{{ room.roomNumber }}</td>
+                                    <td>  {% if room.department %} {{room.department.Name}}  {% endif %} </td>
                                     <td>{{ room.createdAt ? room.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                                     <td>{{ room.updatedAt ? room.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
                                     <td>
