@@ -12,12 +12,20 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Psr\Log\LoggerInterface;
 
 /**
  * @Route("/department")
  */
 class DepartmentController extends AbstractController
 {
+    private $logger;
+
+    public function __construct(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
+    }
+
     /**
      * @Route("/", defaults={"page": "1", "_format"="html", "limit" = "10"}, methods={"GET"}, name="department_index")
      * @Route("/page/{page<[1-9]\d*>}/{limit?}", defaults={"limit" = "10", "_format"="html"}, methods={"GET"}, name="department_index_paginated")
@@ -41,7 +49,10 @@ class DepartmentController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $department->setCreatedBy($this->getUser());
-            
+
+            // TODO
+            //$this->logger->info("Created Department");
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($department);
             $entityManager->flush();
@@ -74,6 +85,9 @@ class DepartmentController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $department->setUpdatedAt(new \Datetime());
+
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('department_index');

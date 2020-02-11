@@ -23,7 +23,7 @@
                 {% set current_path = app.request.get('_route') %}
 
                 <li class="nav-item  {% if 'dashboard' in current_path %}active{% endif %}">
-                    <a href="#" class="nav-link">
+                    <a href="{{ path('dashboard') }}" class="nav-link">
                         <i class="nav-icon fa fas fa-tachometer-alt"></i>
                         <p>
                             Dashboard
