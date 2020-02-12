@@ -18,14 +18,14 @@ class SecurityController extends AbstractController
     {
         // $user = new User();
 
+        // $user->setFullName("Aadmin Test");
+        // $user->setUserName("admin");
         // $user->setEmail("admin@admin.com");
         // $user->setPassword($encoder->encodePassword($user, "123456"));
         
         // $entityManager = $this->getDoctrine()->getManager();
         // $entityManager->persist($user);
         // $entityManager->flush();
-
-        
 
         if ($this->getUser()) {
             return $this->redirectToRoute('dashboard');

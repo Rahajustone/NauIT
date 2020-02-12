@@ -352,4 +352,11 @@ class User implements UserInterface, \Serializable
 
         return $this;
     }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
 }
