@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'parent.html.twig' %}
 {% block stylesheets %}
 	<link rel="stylesheet" href="{{ asset('plugins/select2/css/select2.min.css') }}">
   	<link rel="stylesheet" href="{{ asset('plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
@@ -6,14 +6,30 @@
 
 {% block title %}Edit User{% endblock %}
 
-{% block body %}
-    <h1>Edit User</h1>
-
-    {{ include('user/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('user_index') }}">back to list</a>
-
-    {{ include('user/_delete_form.html.twig') }}
+{% block content %}
+<div class="content-header px-5">
+    <div class="container-fluid">
+        <div class="row my-3">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-dark">Edit New User</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href=" {{ path('dashboard') }} ">Home</a></li>
+                    <li class="breadcrumb-item"><a href=" {{ path('user_index') }} ">User</a></li>
+                    <li class="breadcrumb-item active">Edit User</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div>
+</div>
+<section class="content px-5">
+    <div class="container-fluid">
+        <div class="row">
+            {{ include('user/_form.html.twig') }}
+        </div>
+    </div>
+</section>
 {% endblock %}
 
 {% block javascripts %}

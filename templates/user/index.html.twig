@@ -151,6 +151,8 @@
                             </tbody>
                         </table>
                     </div>
+
+                    {% include 'shared/pagination.html.twig' with {'pagination' : users, 'pagination_path' : 'user_index_paginated' } only %}
                 </div>
             </div>
         </div>
