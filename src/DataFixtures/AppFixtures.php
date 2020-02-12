@@ -37,7 +37,7 @@ class AppFixtures extends Fixture
             $user = new User();
             $user->setFullName($fullname);
             $user->setUsername($username);
-            $user->setPassword($this->passwordEncoder->encodePassword($user, "123456"));
+            $user->setPassword($this->passwordEncoder->encodePassword($user, $password));
             $user->setEmail($email);
             $user->setRoles($roles);
 
@@ -133,7 +133,7 @@ class AppFixtures extends Fixture
     {
         return [
             // $userData = [$fullname, $username, $password, $email, $roles];
-            ['Rahmatullo Kholov', 'rahadmin', '123456', 'admin@na.edu', ['ROLE_ADMIN', 'ROLE_USER']],
+            ['Rahmatullo Kholov', 'rahadmin', '123456', 'admin@na.edu', ['ROLE_ADMIN']],
             ['Ibrohim Kaduchi', 'user', 'password', 'user@na.edu', ['ROLE_USER']],
         ];
     }
