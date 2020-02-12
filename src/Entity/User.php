@@ -173,7 +173,14 @@ class User implements UserInterface, \Serializable
 
     public function setRoles(array $roles): void
     {
-        $this->roles = $roles;
+        // Parse a Object to Array
+        $roleLists = [];
+        foreach ($roles as $key => $value) {
+            $a = "".$value;
+            array_push($roleLists, $a);
+        }
+
+        $this->roles = $roleLists;
     }
 
     /**
@@ -217,6 +224,11 @@ class User implements UserInterface, \Serializable
     {
         // add $this->salt too if you don't use Bcrypt or Argon2i
         [$this->id, $this->username, $this->password] = unserialize($serialized, ['allowed_classes' => false]);
+    }
+
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
     }
 
     public function getUpdatedAt()

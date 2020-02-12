@@ -8,6 +8,7 @@ use Doctrine\Common\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use App\Pagination\Paginator;
 
 /**
  * @method User|null find($id, $lockMode = null, $lockVersion = null)
@@ -35,6 +36,21 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->_em->persist($user);
         $this->_em->flush();
     }
+
+    /**
+     * Find latest User with pagination
+     */
+    public function findLatest(int $page = 1, int $limit): Paginator
+    {
+        $qb = $this->createQueryBuilder('p')
+            ->orderBy('p.createdAt', 'DESC')
+            // ->setParameter('now', new \DateTime())
+        ;
+
+        return (new Paginator($qb))->paginate($page, $limit);
+    }
+
+
 
     // /**
     //  * @return User[] Returns an array of User objects

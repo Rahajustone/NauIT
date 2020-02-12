@@ -6,6 +6,7 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use App\Entity\User;
+use App\Entity\Role;
 use App\Entity\Product;
 use App\Entity\Room;
 use App\Entity\Department;
@@ -25,6 +26,7 @@ class AppFixtures extends Fixture
         $this->loadProduct($manager);
         $this->loadRooms($manager);
         $this->loadDepartment($manager);
+        $this->loadRole($manager);
 
         $manager->flush();
     }
@@ -45,6 +47,18 @@ class AppFixtures extends Fixture
 
         $manager->flush();
     }
+
+    public function loadRole(ObjectManager $manager)
+    {
+        $role = new Role();
+        $role->setName('ROLE_ADMIN');
+        $manager->persist($role);
+
+        $roleUser = new Role();
+        $roleUser->setName('ROLE_USER');
+        $manager->persist($roleUser);
+    }
+
 
     public function loadProduct(ObjectManager $manager)
     {
@@ -85,8 +99,6 @@ class AppFixtures extends Fixture
         }
     }
 
-
-
     private function generateIpAddress()
     {
         return  "".mt_rand(0,255).".".mt_rand(0,255).".".mt_rand(0,255).".".mt_rand(0,255);
@@ -121,7 +133,7 @@ class AppFixtures extends Fixture
     {
         return [
             // $userData = [$fullname, $username, $password, $email, $roles];
-            ['Rahmatullo Kholov', 'rahadmin', '123456', 'admin@na.edu', ['ROLE_ADMIN']],
+            ['Rahmatullo Kholov', 'rahadmin', '123456', 'admin@na.edu', ['ROLE_ADMIN', 'ROLE_USER']],
             ['Ibrohim Kaduchi', 'user', 'password', 'user@na.edu', ['ROLE_USER']],
         ];
     }

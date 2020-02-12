@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+{% block stylesheets %}
+	<link rel="stylesheet" href="{{ asset('plugins/select2/css/select2.min.css') }}">
+  	<link rel="stylesheet" href="{{ asset('plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
+{% endblock %}
+
+{% block title %}Edit User{% endblock %}
+
+{% block body %}
+    <h1>Edit User</h1>
+
+    {{ include('user/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('user_index') }}">back to list</a>
+
+    {{ include('user/_delete_form.html.twig') }}
+{% endblock %}
+
+{% block javascripts %}
+	<script src="{{ asset('plugins/select2/js/select2.full.min.js') }}"></script>
+{%	endblock %}

@@ -42,7 +42,7 @@
                     <a href="{{ path('room_index') }}" class="nav-link">
                         <i class="nav-icon fas fa-home"></i>
                         <p>
-                            Rooms
+                            Room
                         </p>
                     </a>
                 </li>
@@ -54,11 +54,11 @@
                         </p>
                     </a>
                 </li>
-                <li class="nav-item  {% if current_path == '_list' %}active{% endif %}">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-th"></i>
+               <li class="nav-item  {% if 'user' in current_path %}active{% endif %}">
+                    <a href="{{ path('user_index') }}" class="nav-link">
+                        <i class="nav-icon fas fa-users"></i>
                         <p>
-                            Product
+                            User
                         </p>
                     </a>
                 </li>
