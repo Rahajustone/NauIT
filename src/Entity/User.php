@@ -37,7 +37,7 @@ class User implements UserInterface, \Serializable
      * @var string
      *
      * @ORM\Column(type="string")
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(message = "Please enter your fullname")
      */
     private $fullName;
 
@@ -45,7 +45,7 @@ class User implements UserInterface, \Serializable
      * @var string
      *
      * @ORM\Column(type="string", unique=true)
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(message = "Please enter your username")
      * @Assert\Length(min=2, max=50)
      */
     private $username;
@@ -59,16 +59,11 @@ class User implements UserInterface, \Serializable
     private $email;
 
     /**
-     * @Assert\NotBlank()
-     * @Assert\Length(max=4096)
-     */
-    private $plainPassword;
-
-    /**
      * The below length depends on the "algorithm" you use for encoding
      * the password, but this works well with bcrypt.
      *
      * @ORM\Column(type="string", length=64)
+     * @Assert\NotBlank(message = "password")
      */
     private $password;
 
@@ -81,10 +76,8 @@ class User implements UserInterface, \Serializable
     private $createdAt;
 
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(type="datetime")
+   /**
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $updatedAt;
 
@@ -109,6 +102,11 @@ class User implements UserInterface, \Serializable
      * @ORM\OneToMany(targetEntity="App\Entity\Department", mappedBy="createdBy")
      */
     private $departments;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isActive = true;
 
     public function __construct()
     {
@@ -153,16 +151,6 @@ class User implements UserInterface, \Serializable
     public function setEmail(string $email): void
     {
         $this->email = $email;
-    }
-
-    public function getPlainPassword()
-    {
-        return $this->plainPassword;
-    }
-
-    public function setPlainPassword($password)
-    {
-        $this->plainPassword = $password;
     }
 
     public function getPassword(): ?string
@@ -356,6 +344,18 @@ class User implements UserInterface, \Serializable
     public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getIsActive(): ?bool
+    {
+        return $this->isActive;
+    }
+
+    public function setIsActive(bool $isActive): self
+    {
+        $this->isActive = $isActive;
 
         return $this;
     }
