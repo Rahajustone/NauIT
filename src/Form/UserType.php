@@ -38,7 +38,6 @@ class UserType extends AbstractType
                 'multiple' => true,
                 'required' => true
             ])
-
             // TODO 
             // Delete this lines
            // ->add('roles', ChoiceType::class, [
