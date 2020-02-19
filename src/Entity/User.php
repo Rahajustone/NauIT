@@ -108,6 +108,16 @@ class User implements UserInterface, \Serializable
      */
     private $isActive = true;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\ProductType", mappedBy="createdBy")
+     */
+    private $productTypes;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\ProductModel", mappedBy="createdBy")
+     */
+    private $productModels;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
@@ -116,6 +126,8 @@ class User implements UserInterface, \Serializable
         $this->products = new ArrayCollection();
         $this->rooms = new ArrayCollection();
         $this->departments = new ArrayCollection();
+        $this->productTypes = new ArrayCollection();
+        $this->productModels = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -356,6 +368,68 @@ class User implements UserInterface, \Serializable
     public function setIsActive(bool $isActive): self
     {
         $this->isActive = $isActive;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ProductType[]
+     */
+    public function getProductTypes(): Collection
+    {
+        return $this->productTypes;
+    }
+
+    public function addProductType(ProductType $productType): self
+    {
+        if (!$this->productTypes->contains($productType)) {
+            $this->productTypes[] = $productType;
+            $productType->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProductType(ProductType $productType): self
+    {
+        if ($this->productTypes->contains($productType)) {
+            $this->productTypes->removeElement($productType);
+            // set the owning side to null (unless already changed)
+            if ($productType->getCreatedBy() === $this) {
+                $productType->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ProductModel[]
+     */
+    public function getProductModels(): Collection
+    {
+        return $this->productModels;
+    }
+
+    public function addProductModel(ProductModel $productModel): self
+    {
+        if (!$this->productModels->contains($productModel)) {
+            $this->productModels[] = $productModel;
+            $productModel->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProductModel(ProductModel $productModel): self
+    {
+        if ($this->productModels->contains($productModel)) {
+            $this->productModels->removeElement($productModel);
+            // set the owning side to null (unless already changed)
+            if ($productModel->getCreatedBy() === $this) {
+                $productModel->setCreatedBy(null);
+            }
+        }
 
         return $this;
     }

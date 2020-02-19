@@ -22,36 +22,36 @@ class Product
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $ipAddress;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $macAdrress;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $os;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $price;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(type="datetime", nullable=true)
+     * @ORM\Column(type="datetime", nullable=false)
      */
     private $createdAt;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $updatedAt;
 
@@ -66,10 +66,31 @@ class Product
      */
     private $createdBy;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $status;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\ProductType", inversedBy="products")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $modelType;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\ProductModel", inversedBy="products")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $productModel;
+
+    /**
+     * @ORM\Column(type="string", unique=true, length=255)
+     */
+    private $serialNumber;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
-        $this->updatedAt = new \DateTime();
     }
 
     public function getId(): ?int
@@ -178,6 +199,54 @@ class Product
     public function setCreatedAt(?\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): self
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    public function getModelType(): ?ProductType
+    {
+        return $this->modelType;
+    }
+
+    public function setModelType(?ProductType $modelType): self
+    {
+        $this->modelType = $modelType;
+
+        return $this;
+    }
+
+    public function getProductModel(): ?ProductModel
+    {
+        return $this->productModel;
+    }
+
+    public function setProductModel(?ProductModel $productModel): self
+    {
+        $this->productModel = $productModel;
+
+        return $this;
+    }
+
+    public function getSerialNumber(): ?string
+    {
+        return $this->serialNumber;
+    }
+
+    public function setSerialNumber(string $serialNumber): self
+    {
+        $this->serialNumber = $serialNumber;
 
         return $this;
     }
