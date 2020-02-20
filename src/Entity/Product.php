@@ -88,6 +88,11 @@ class Product
      */
     private $serialNumber;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="aasignedProducts")
+     */
+    private $assignToUser;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
@@ -247,6 +252,18 @@ class Product
     public function setSerialNumber(string $serialNumber): self
     {
         $this->serialNumber = $serialNumber;
+
+        return $this;
+    }
+
+    public function getAssignToUser(): ?User
+    {
+        return $this->assignToUser;
+    }
+
+    public function setAssignToUser(?User $assignToUser): self
+    {
+        $this->assignToUser = $assignToUser;
 
         return $this;
     }

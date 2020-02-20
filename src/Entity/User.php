@@ -118,6 +118,11 @@ class User implements UserInterface, \Serializable
      */
     private $productModels;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Product", mappedBy="assignToUser")
+     */
+    private $aasignedProducts;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
@@ -128,6 +133,7 @@ class User implements UserInterface, \Serializable
         $this->departments = new ArrayCollection();
         $this->productTypes = new ArrayCollection();
         $this->productModels = new ArrayCollection();
+        $this->aasignedProducts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -428,6 +434,37 @@ class User implements UserInterface, \Serializable
             // set the owning side to null (unless already changed)
             if ($productModel->getCreatedBy() === $this) {
                 $productModel->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Product[]
+     */
+    public function getAasignedProducts(): Collection
+    {
+        return $this->aasignedProducts;
+    }
+
+    public function addAasignedProduct(Product $aasignedProduct): self
+    {
+        if (!$this->aasignedProducts->contains($aasignedProduct)) {
+            $this->aasignedProducts[] = $aasignedProduct;
+            $aasignedProduct->setAssignToUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAasignedProduct(Product $aasignedProduct): self
+    {
+        if ($this->aasignedProducts->contains($aasignedProduct)) {
+            $this->aasignedProducts->removeElement($aasignedProduct);
+            // set the owning side to null (unless already changed)
+            if ($aasignedProduct->getAssignToUser() === $this) {
+                $aasignedProduct->setAssignToUser(null);
             }
         }
 
