@@ -1,0 +1,29 @@
+{% extends 'parent.html.twig' %}
+
+{% block title %}New Product Type{% endblock %}
+
+{% block content %}
+<div class="content-header px-5">
+    <div class="container-fluid">
+        <div class="row my-3">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-dark">Create New Product Type</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href=" {{ path('dashboard') }} ">Home</a></li>
+                    <li class="breadcrumb-item"><a href=" {{ path('producttype_index') }} ">Product Type</a></li>
+                    <li class="breadcrumb-item active">Create Product Type</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div>
+</div>
+<section class="content px-5">
+    <div class="container-fluid">
+        <div class="row">
+            {{ include('product_type/_form.html.twig', {'button_label': 'Create'}) }}
+        </div>
+    </div>
+</section>
+{% endblock %}

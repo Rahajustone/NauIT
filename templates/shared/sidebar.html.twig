@@ -40,7 +40,15 @@
                     <a href="{{ path('productmodel_index') }}" class="nav-link">
                         <i class="nav-icon fas fa-info"></i>
                         <p>
-                            ProductModel
+                            Product Model
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item  {% if 'producttype' in current_path %}active{% endif %}">
+                    <a href="{{ path('producttype_index') }}" class="nav-link">
+                        <i class="nav-icon fas fa-bullseye"></i>
+                        <p>
+                            Product Type
                         </p>
                     </a>
                 </li>
