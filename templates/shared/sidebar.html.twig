@@ -19,9 +19,7 @@
         <!-- Sidebar Menu -->
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column nav-flat" data-widget="treeview" role="menu" data-accordion="false">
-
                 {% set current_path = app.request.get('_route') %}
-
                 <li class="nav-item  {% if 'dashboard' in current_path %}active{% endif %}">
                     <a href="{{ path('dashboard') }}" class="nav-link">
                         <i class="nav-icon fa fas fa-tachometer-alt"></i>
@@ -30,11 +28,19 @@
                         </p>
                     </a>
                 </li>
-                <li class="nav-item  {% if 'product' in current_path %}active{% endif %}">
+                <li class="nav-item  {% if 'product_' in current_path %}active{% endif %}">
                     <a href="{{ path('product_index') }}" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>
                         <p>
                             Product
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item  {% if 'productmodel' in current_path %}active{% endif %}">
+                    <a href="{{ path('productmodel_index') }}" class="nav-link">
+                        <i class="nav-icon fas fa-info"></i>
+                        <p>
+                            ProductModel
                         </p>
                     </a>
                 </li>
@@ -54,7 +60,7 @@
                         </p>
                     </a>
                 </li>
-               <li class="nav-item  {% if 'user' in current_path %}active{% endif %}">
+                <li class="nav-item  {% if 'user' in current_path %}active{% endif %}">
                     <a href="{{ path('user_index') }}" class="nav-link">
                         <i class="nav-icon fas fa-users"></i>
                         <p>

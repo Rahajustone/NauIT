@@ -19,7 +19,7 @@ class ProductModel
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, unique=true)
      */
     private $name;
 
@@ -47,6 +47,7 @@ class ProductModel
     public function __construct()
     {
         $this->products = new ArrayCollection();
+        $this->createdAt = new \DateTime();
     }
 
     public function getId(): ?int
