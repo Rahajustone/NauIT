@@ -11,3 +11,22 @@
 
     {{ include('product/_delete_form.html.twig') }}
 {% endblock %}
+{% block javascripts %}
+    <script src="{{ asset('dist/js/cleave.js') }}"></script>
+
+    <script type="text/javascript">
+        // Ip Number
+        var cleave = new Cleave('.ipnumber', {
+            delimiter: '.',
+            blocks: [3, 3, 3, 3],
+            uppercase: true
+        })
+
+         // Mac Number
+        var cleave = new Cleave('.macnumber', {
+            delimiter: ':',
+            blocks: [2, 2, 2, 2, 2, 2],
+            uppercase: true
+        });
+    </script>
+{% endblock %}
