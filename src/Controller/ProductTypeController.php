@@ -72,6 +72,8 @@ class ProductTypeController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $productType->setUpdatedAt(new \DateTime());
+
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('producttype_index');
