@@ -1,0 +1,19 @@
+{# read and display several types of flash messages #}
+<!-- TODO -->
+{% if app.session is not null and app.session.started %}
+    <div class="content-header p-0 m-0">
+        <div class="container-fluid p-0 m-0">
+            <div class="row p-0 m-0">
+                {% for label, messages in app.flashes %}
+                    {% for message in messages %}
+                    <div class="col-sm-6 p-1 m-1 align-center">
+                        <div class="alert alert-{{ label }}" role="alert">
+                            {{ message }}
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endif %}

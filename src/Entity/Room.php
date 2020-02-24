@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -49,9 +51,15 @@ class Room
      */
     private $department;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="userRoom")
+     */
+    private $userRooms;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
+        $this->userRooms = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -127,6 +135,42 @@ class Room
     public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->room_number;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getUserRooms(): Collection
+    {
+        return $this->userRooms;
+    }
+
+    public function addUserRoom(User $userRoom): self
+    {
+        if (!$this->userRooms->contains($userRoom)) {
+            $this->userRooms[] = $userRoom;
+            $userRoom->setUserRoom($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserRoom(User $userRoom): self
+    {
+        if ($this->userRooms->contains($userRoom)) {
+            $this->userRooms->removeElement($userRoom);
+            // set the owning side to null (unless already changed)
+            if ($userRoom->getUserRoom() === $this) {
+                $userRoom->setUserRoom(null);
+            }
+        }
 
         return $this;
     }

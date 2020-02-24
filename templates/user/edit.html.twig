@@ -1,8 +1,4 @@
 {% extends 'parent.html.twig' %}
-{% block stylesheets %}
-	<link rel="stylesheet" href="{{ asset('plugins/select2/css/select2.min.css') }}">
-  	<link rel="stylesheet" href="{{ asset('plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
-{% endblock %}
 
 {% block title %}Edit User{% endblock %}
 
@@ -33,5 +29,14 @@
 {% endblock %}
 
 {% block javascripts %}
-	<script src="{{ asset('plugins/select2/js/select2.full.min.js') }}"></script>
-{%	endblock %}
+    <script src="{{ asset('plugins/select2/js/select2.full.min.js') }}"></script>
+    <script type="text/javascript">
+        //Initialize Select2 Elements
+        $('.select2').select2()
+
+        // // //Initialize Select2 Elements
+        $('.select2bs4').select2({
+          theme: 'bootstrap4'
+        });
+    </script>
+{%  endblock %}

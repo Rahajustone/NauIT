@@ -123,6 +123,11 @@ class User implements UserInterface, \Serializable
      */
     private $aasignedProducts;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Room", inversedBy="userRooms")
+     */
+    private $userRoom;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
@@ -467,6 +472,18 @@ class User implements UserInterface, \Serializable
                 $aasignedProduct->setAssignToUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUserRoom(): ?Room
+    {
+        return $this->userRoom;
+    }
+
+    public function setUserRoom(?Room $userRoom): self
+    {
+        $this->userRoom = $userRoom;
 
         return $this;
     }

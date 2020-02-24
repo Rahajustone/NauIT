@@ -42,7 +42,7 @@ class ProductType extends AbstractType
                     'In Use' => 'inuse',
                     'Broken' => 'broken',
                     'Sold' => 'sold',
-                    'In Repair' => 'in repair'
+                    'In Repair' => 'inrepair'
                 ]
             ])
             ->add('modelType', EntityType::class, [

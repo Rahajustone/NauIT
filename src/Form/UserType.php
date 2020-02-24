@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\User;
 use App\Entity\Role;
+use App\Entity\Room;
 use App\Enums\RolesEnum;
 use App\Form\Type\RolesInputType;
 use App\Form\EnumInputType\RolesType;
@@ -37,6 +38,10 @@ class UserType extends AbstractType
                 'attr' => ['class' => "select2", 'multiple' => "multiple" ],
                 'multiple' => true,
                 'required' => true
+            ])
+            ->add('userRoom', EntityType::class, [
+              'class' => Room::class,
+              'choice_label' => 'name'
             ])
             // TODO 
             // Delete this lines

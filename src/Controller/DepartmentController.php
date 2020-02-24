@@ -16,6 +16,7 @@ use Psr\Log\LoggerInterface;
 
 /**
  * @Route("/department")
+ * @IsGranted("ROLE_ADMIN")
  */
 class DepartmentController extends AbstractController
 {

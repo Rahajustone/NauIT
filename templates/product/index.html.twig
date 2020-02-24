@@ -1,7 +1,6 @@
 {% extends 'parent.html.twig' %}
 {% block title %}Product index{% endblock %}
 {% block content %}
-
 <div class="content-header px-5">
     <div class="container-fluid">
         <div class="row my-3">
@@ -122,40 +121,99 @@
                                     <th>MacAdrress</th>
                                     <th>Os</th>
                                     <th>Price</th>
+                                    <th>Assign</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {% for product in products.results %}
-                                    <tr>
-                                        <td>{{ loop.index }}</td>
-                                        <td>{{ product.name }}</td>
-                                        <td>{{ product.ipAddress }}</td>
-                                        <td>{{ product.macAdrress }}</td>
-                                        <td>{{ product.os }}</td>
-                                        <td>{{ product.price }}</td>
-                                        <td>
-                                            {{ include('product/_delete_form.html.twig') }}
-                                            <a href="{{ path('product_show', {'id': product.id}) }}" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>
-                                            <a href="{{ path('product_edit', {'id': product.id}) }}" class="btn btn-warning btn-sm mr-1">
-                                                <i class="text-white fa fa-pen"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
+                                <tr>
+                                    <td>{{ loop.index }}</td>
+                                    <td>{{ product.name }}</td>
+                                    <td>{{ product.ipAddress }}</td>
+                                    <td>{{ product.macAdrress }}</td>
+                                    <td>{{ product.os }}</td>
+                                    <td>{{ product.price }}</td>
+                                    <td>
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#assignToUser" value="{{ product.id }}" onclick="setIdProduct(this.value)">
+                                            Assign To User
+                                        </button>
+                                    </td>
+                                    <td>
+                                        {{ include('product/_delete_form.html.twig') }}
+                                        <a href="{{ path('product_show', {'id': product.id}) }}" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>
+                                        <a href="{{ path('product_edit', {'id': product.id}) }}" class="btn btn-warning btn-sm mr-1">
+                                            <i class="text-white fa fa-pen"></i>
+                                        </a>
+                                    </td>
+                                </tr>
                                 {% else %}
-                                    <tr>
-                                        <td colspan="7">no records found</td>
-                                    </tr>
+                                <tr>
+                                    <td colspan="7">no records found</td>
+                                </tr>
                                 {% endfor %}
                             </tbody>
                         </table>
                     </div>
                     <!-- /.card-body -->
                     {% include 'shared/pagination.html.twig' with {'pagination' : products, 'pagination_path' : 'product_index_paginated' } only %}
-
                 </div>
             </div>
         </div>
     </div>
 </section>
+<!-- Modal -->
+<div class="modal fade" id="assignToUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Assign To User</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form class="form" action="{{ path('product_assignToUser') }}" method="post">
+                <div class="modal-body">
+                    <div class="">
+                        <label>Assign To User: <i class="fa fa-user"></i></label>
+                        <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" name="userId" data-select2-id="1" tabindex="-1" aria-hidden="true">
+                            {% for user in users %}
+                                <option value="{{ user.id }}"> 
+                                    {{ user.fullName }}
+                                    {% if user.userRoom %}
+                                        -> {{ user.userRoom }} 
+
+                                        {% if user.userRoom.department %} 
+                                            -> {{ user.userRoom.department}} 
+                                        {% endif %} 
+                                    {% endif  %}
+                                </option>
+                            {% endfor %}
+                        </select>
+                        <input type="hidden" name="_token" value="{{ csrf_token('assigntoUser') }}"/>
+                        <input type="hidden" name="productId" value="" id="productId">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Assign it</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block javascripts %}
+<script src="{{ asset('plugins/select2/js/select2.full.min.js') }}"></script>
+<script type="text/javascript">
+    
+    // Function
+    function setIdProduct(id) {
+        document.getElementById("productId").value = id;
+        // console.log(document.getElementById("productId").value);
+    }
+
+    //Initialize Select2 Elements
+    $('.select2').select2();
+</script>
 {% endblock %}
