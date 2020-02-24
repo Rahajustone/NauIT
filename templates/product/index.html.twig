@@ -15,13 +15,30 @@
             </div><!-- /.col -->
         </div><!-- /.row -->
         <div class="row mt-5">
-            <div class="col-md-4 col-sm-6 col-12">
+             <div class="col-md-4 col-sm-6 col-12">
                 <div class="info-box py-4">
                     <span class="info-box-icon circle color-na-green-border">
-                        <i class="fas fa-dollar-sign color-na-green"></i>
+                        <i class="fas fa-industry color-na-green"></i>
                     </span>
                     <div class="info-box-content">
-                        <span class="info-box-number text color-na-green"> $50,410</span>
+                        <span class="info-box-number color-na-green"> № {{ products.numResults }}</span>
+                        <span class="info-box-text text-muted">Total Product</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                    <span class="info-box-icon">
+                        <a href=""><i class="fa fa-ellipsis-h text-secondary"></i></a>
+                    </span>
+                </div>
+                <!-- /.info-box -->
+            </div>
+            <!-- /.col -->
+            <div class="col-md-4 col-sm-6 col-12">
+                <div class="info-box py-4">
+                    <span class="info-box-icon circle color-na-blue-border">
+                        <i class="fas fa-dollar-sign color-na-blue"></i>
+                    </span>
+                    <div class="info-box-content">
+                        <span class="info-box-number text color-na-blue"> $50,410</span>
                         <span class="info-box-text">Total Revenue</span>
                     </div>
                     <!-- /.info-box-content -->
@@ -33,24 +50,7 @@
                 </div>
                 <!-- /.info-box -->
             </div>
-            <!-- /.col -->
-            <div class="col-md-4 col-sm-6 col-12">
-                <div class="info-box py-4">
-                    <span class="info-box-icon circle color-na-blue-border">
-                        <i class="fas fa-shopping-cart color-na-blue"></i>
-                    </span>
-                    <div class="info-box-content">
-                        <span class="info-box-number text color-na-blue"> $50,410</span>
-                        <span class="info-box-text">Total Products</span>
-                    </div>
-                    <!-- /.info-box-content -->
-                    <span class="info-box-icon">
-                        <a href=""><i class="fa fa-ellipsis-h text-secondary"></i></a>
-                    </span>
-                </div>
-                <!-- /.info-box -->
-            </div>
-            <!-- /.col -->
+            <!-- /.col -->           
             <div class="col-md-4 col-sm-6 col-12">
                 <div class="info-box py-4">
                     <span class="info-box-icon circle color-na-red-border">
@@ -121,7 +121,8 @@
                                     <th>MacAdrress</th>
                                     <th>Os</th>
                                     <th>Price</th>
-                                    <th>Assign</th>
+                                    <th>History</th>
+                                    <th>AssignToUser</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -135,8 +136,15 @@
                                     <td>{{ product.os }}</td>
                                     <td>{{ product.price }}</td>
                                     <td>
-                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#assignToUser" value="{{ product.id }}" onclick="setIdProduct(this.value)">
-                                            Assign To User
+                                        <button type="button" class="btn btn-sm color-na-warning-background text-white" data-toggle="modal" data-target="#assignToUser" value="{{ product.id }}" onclick="setIdProduct(this.value)">
+                                            <i class="fas fa-history"></i>
+                                            History
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-sm color-na-darkblack-background text-white" data-toggle="modal" data-target="#assignToUser" value="{{ product.id }}" onclick="setIdProduct(this.value)">
+                                            <i class="fas fa-user"> </i>
+                                            AssignTo
                                         </button>
                                     </td>
                                     <td>

@@ -27,10 +27,11 @@ class ProductController extends AbstractController
      */
     public function index(Request $request, int $page, int $limit, string $_format, ProductRepository $productRepository, UserRepository $userRepository): Response
     {
-        // dd($userRepository->findAll());
+
+        // dd($productRepository->findLatest($page, $limit));
         return $this->render('product/index.html.twig', [
             'products' => $productRepository->findLatest($page, $limit),
-            'users' => $userRepository->findAll()
+            'users' => $userRepository->findAll(),
         ]);
     }
 
