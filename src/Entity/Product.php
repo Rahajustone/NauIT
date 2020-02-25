@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 /**
@@ -93,9 +95,15 @@ class Product
      */
     private $assignToUser;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\ProductHistory", mappedBy="productId")
+     */
+    private $productHistories;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
+        $this->productHistories = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -264,6 +272,37 @@ class Product
     public function setAssignToUser(?User $assignToUser): self
     {
         $this->assignToUser = $assignToUser;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ProductHistory[]
+     */
+    public function getProductHistories(): Collection
+    {
+        return $this->productHistories;
+    }
+
+    public function addProductHistory(ProductHistory $productHistory): self
+    {
+        if (!$this->productHistories->contains($productHistory)) {
+            $this->productHistories[] = $productHistory;
+            $productHistory->setProductId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProductHistory(ProductHistory $productHistory): self
+    {
+        if ($this->productHistories->contains($productHistory)) {
+            $this->productHistories->removeElement($productHistory);
+            // set the owning side to null (unless already changed)
+            if ($productHistory->getProductId() === $this) {
+                $productHistory->setProductId(null);
+            }
+        }
 
         return $this;
     }

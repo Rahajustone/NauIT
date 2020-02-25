@@ -136,7 +136,7 @@
                                     <td>{{ product.os }}</td>
                                     <td>{{ product.price }}</td>
                                     <td>
-                                        <button type="button" class="btn btn-sm color-na-warning-background text-white" data-toggle="modal" data-target="#assignToUser" value="{{ product.id }}" onclick="setIdProduct(this.value)">
+                                        <button type="button" class="btn btn-sm color-na-warning-background text-white" data-toggle="modal" data-target="#historyModal" value="{{ product.id }}" onclick="setIdProduct(this.value)">
                                             <i class="fas fa-history"></i>
                                             History
                                         </button>
@@ -170,12 +170,53 @@
         </div>
     </div>
 </section>
-<!-- Modal -->
-<div class="modal fade" id="assignToUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- Assign to User Modal -->
+<div class="modal fade" id="assignToUser" tabindex="-1" role="dialog" aria-labelledby="assignToUserModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Assign To User</h5>
+                <h5 class="modal-title" id="assignToUserModalLabel">Assign To User</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form class="form" action="{{ path('product_assignToUser') }}" method="post">
+                <div class="modal-body">
+                    <div class="">
+                        <label>Assign To User: <i class="fa fa-user"></i></label>
+                        <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" name="userId" data-select2-id="1" tabindex="-1" aria-hidden="true">
+                            {% for user in users %}
+                                <option value="{{ user.id }}"> 
+                                    {{ user.fullName }}
+                                    {% if user.userRoom %}
+                                        -> {{ user.userRoom }} 
+
+                                        {% if user.userRoom.department %} 
+                                            -> {{ user.userRoom.department}} 
+                                        {% endif %} 
+                                    {% endif  %}
+                                </option>
+                            {% endfor %}
+                        </select>
+                        <input type="hidden" name="_token" value="{{ csrf_token('assigntoUser') }}"/>
+                        <input type="hidden" name="productId" value="" id="productId">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Assign it</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- History Modal -->
+<div class="modal fade" id="historyModal" tabindex="-1" role="dialog" aria-labelledby="historyModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="historyModalLabel">Assign To User</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>

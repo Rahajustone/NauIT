@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Product;
+use App\Entity\ProductHistory;
+use App\Repository\ProductHistoryRepository;
 use App\Form\ProductType;
 use App\Repository\ProductRepository;
 use App\Repository\UserRepository;
@@ -27,8 +29,6 @@ class ProductController extends AbstractController
      */
     public function index(Request $request, int $page, int $limit, string $_format, ProductRepository $productRepository, UserRepository $userRepository): Response
     {
-
-        // dd($productRepository->findLatest($page, $limit));
         return $this->render('product/index.html.twig', [
             'products' => $productRepository->findLatest($page, $limit),
             'users' => $userRepository->findAll(),
@@ -119,6 +119,17 @@ class ProductController extends AbstractController
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($product);
+
+            // Add Product History
+            $productHistory = new ProductHistory();
+            $productHistory->setProductId($product);
+            $productHistory->setCreatedBy($this->getUser());
+
+            $userRoom = $userExist->getUserRoom();
+
+            $productHistory->setMessage("This product assigned to ".$userExist->getFullName().".Room Number: ".$userRoom);
+
+            $entityManager->persist($productHistory);
             $entityManager->flush();
 
             $this->addFlash('success', 'Product assigned to user.');

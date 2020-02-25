@@ -124,9 +124,14 @@ class User implements UserInterface, \Serializable
     private $aasignedProducts;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Room", inversedBy="userRooms")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Room", fetch="EAGER" , inversedBy="userRooms")
      */
     private $userRoom;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\ProductHistory", mappedBy="createdBy")
+     */
+    private $productHistories;
 
     public function __construct()
     {
@@ -139,6 +144,7 @@ class User implements UserInterface, \Serializable
         $this->productTypes = new ArrayCollection();
         $this->productModels = new ArrayCollection();
         $this->aasignedProducts = new ArrayCollection();
+        $this->productHistories = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -484,6 +490,37 @@ class User implements UserInterface, \Serializable
     public function setUserRoom(?Room $userRoom): self
     {
         $this->userRoom = $userRoom;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ProductHistory[]
+     */
+    public function getProductHistories(): Collection
+    {
+        return $this->productHistories;
+    }
+
+    public function addProductHistory(ProductHistory $productHistory): self
+    {
+        if (!$this->productHistories->contains($productHistory)) {
+            $this->productHistories[] = $productHistory;
+            $productHistory->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProductHistory(ProductHistory $productHistory): self
+    {
+        if ($this->productHistories->contains($productHistory)) {
+            $this->productHistories->removeElement($productHistory);
+            // set the owning side to null (unless already changed)
+            if ($productHistory->getCreatedBy() === $this) {
+                $productHistory->setCreatedBy(null);
+            }
+        }
 
         return $this;
     }
