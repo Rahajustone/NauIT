@@ -95,16 +95,17 @@ class ProductController extends AbstractController
     public function productAssignToUser(Request $request, ProductRepository $productRepository, UserRepository $userRepository): Response
     {
         if ($this->isCsrfTokenValid('assigntoUser', $request->request->get('_token'))) {
+
+            $entityManager = $this->getDoctrine()->getManager();
+
+            // Get Requests
             $userId = $request->request->get('userId');
             $productId = $request->request->get('productId');
+            $historyAction = $request->request->get('product_status');
+            $customMessage = $request->request->get('custommessage');
 
-            // If user is in use database
-            $userExist = $userRepository->find($userId);
-            if (!$userExist) {
-                $this->addFlash('danger', 'User Not Found!');
-                
-                return $this->redirectToRoute('product_index'); 
-            }
+            // System message
+            $systemMessage = "";
 
             // If Product not found
             $product = $productRepository->find($productId); 
@@ -114,25 +115,40 @@ class ProductController extends AbstractController
                 return $this->redirectToRoute('product_index');
             }
 
-            $product->setAssignToUser($userExist);
-            $product->setStatus('inuse');
+            if ($historyAction == "assigntouser") {
 
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($product);
+                // If user is in use database
+                $userExist = $userRepository->find($userId);
+                if (!$userExist) {
+                    $this->addFlash('danger', 'While assigend user Not Found!');
+                    
+                    return $this->redirectToRoute('product_index'); 
+                }
+
+                $userRoom = $userExist->getUserRoom();
+
+                // Assign Product to User
+                $product->setAssignToUser($userExist);
+                $product->setStatus('inuse');
+                $entityManager->persist($product);
+
+                $systemMessage = "Assigned.This product assigned to ".$userExist->getFullName().".Room Number: ".$userRoom;
+            } else {
+                $systemMessage = $historyAction;
+            }
 
             // Add Product History
             $productHistory = new ProductHistory();
             $productHistory->setProductId($product);
-            $productHistory->setCreatedBy($this->getUser());
+            $productHistory->setCreatedBy($this->getUser());            
 
-            $userRoom = $userExist->getUserRoom();
-
-            $productHistory->setMessage("This product assigned to ".$userExist->getFullName().".Room Number: ".$userRoom);
+            $productHistory->setSystemMessage($systemMessage);
+            $productHistory->getCustomMessage($customMessage);
 
             $entityManager->persist($productHistory);
             $entityManager->flush();
 
-            $this->addFlash('success', 'Product assigned to user.');
+            $this->addFlash("", $systemMessage."|".$customMessage);
 
             return $this->redirectToRoute('product_index');  
         }

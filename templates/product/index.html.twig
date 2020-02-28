@@ -1,4 +1,14 @@
 {% extends 'parent.html.twig' %}
+{% block stylesheets %}
+    <style type="text/css">
+        /*.dataTables_length, .dataTables_filter {
+           display: inline-flex; 
+        }
+        .dataTables_filter {
+            margin-left: 10%;
+        }*/
+    </style>
+{% endblock %}
 {% block title %}Product index{% endblock %}
 {% block content %}
 <div class="content-header px-5">
@@ -15,7 +25,7 @@
             </div><!-- /.col -->
         </div><!-- /.row -->
         <div class="row mt-5">
-             <div class="col-md-4 col-sm-6 col-12">
+            <div class="col-md-4 col-sm-6 col-12">
                 <div class="info-box py-4">
                     <span class="info-box-icon circle color-na-green-border">
                         <i class="fas fa-industry color-na-green"></i>
@@ -50,7 +60,7 @@
                 </div>
                 <!-- /.info-box -->
             </div>
-            <!-- /.col -->           
+            <!-- /.col -->
             <div class="col-md-4 col-sm-6 col-12">
                 <div class="info-box py-4">
                     <span class="info-box-icon circle color-na-red-border">
@@ -80,29 +90,19 @@
                 <div class="card">
                     <div class="card-header py-0">
                         <div class="row">
-                            <div class="col-12 col-sm-3 py-1">
+                            <div class="col-12 col-sm-9 py-1">
                                 <div class="btn-group my-1 mr-2">
                                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Show entries: {{ products.pageSize }}
+                                        Pagination Show entries: {{ products.pageSize }}
                                     </button>
                                     <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="{{ path('product_index_paginated', { page: products.currentPage , limit: "10" }) }}">10</a>
-                                        <a class="dropdown-item" href="{{ path('product_index_paginated', { page: products.currentPage , limit: "25" }) }}">25</a>
-                                        <a class="dropdown-item" href="{{ path('product_index_paginated', { page: products.currentPage , limit: "50" }) }}">50</a>
-                                        <a class="dropdown-item" href="{{ path('product_index_paginated', { page: products.currentPage , limit: "100" }) }}">100</a>
+                                        <a class="dropdown-item" href="{{ path('product_index_paginated', { page: products.currentPage , limit: "10000" }) }}">10000</a>
+                                        <a class="dropdown-item" href="{{ path('product_index_paginated', { page: products.currentPage , limit: "25000" }) }}">25000</a>
+                                        <a class="dropdown-item" href="{{ path('product_index_paginated', { page: products.currentPage , limit: "50000" }) }}">50000</a>
+                                        <a class="dropdown-item" href="{{ path('product_index_paginated', { page: products.currentPage , limit: "100000" }) }}">100000</a>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-12 col-sm-6 py-1">
-                                <form class="form-inline justify-content-center">
-                                    <div class="input-group my-1 mr-1" style="width: 100%;">
-                                        <input type="text" name="table_search" class="form-control" placeholder="Search">
-                                        <div class="input-group-append">
-                                            <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
+                            </div>                            
                             <div class="col-12 col-sm-3 py-1">
                                 <div class="d-flex justify-content-end">
                                     <a href="{{ path('product_new') }}" class="btn color-na-green-background my-1 pull-right"><i class="fa fa-plus text-white"></i></a>
@@ -112,7 +112,7 @@
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                        <table class="table table-bordered">
+                        <table class="table table-bordered" id="product">
                             <thead>
                                 <tr>
                                     <th>Id</th>
@@ -121,8 +121,7 @@
                                     <th>MacAdrress</th>
                                     <th>Os</th>
                                     <th>Price</th>
-                                    <th>History</th>
-                                    <th>AssignToUser</th>
+                                    <th>action</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -136,15 +135,9 @@
                                     <td>{{ product.os }}</td>
                                     <td>{{ product.price }}</td>
                                     <td>
-                                        <button type="button" class="btn btn-sm color-na-warning-background text-white" data-toggle="modal" data-target="#historyModal" value="{{ product.id }}" onclick="setIdProduct(this.value)">
-                                            <i class="fas fa-history"></i>
-                                            History
-                                        </button>
-                                    </td>
-                                    <td>
                                         <button type="button" class="btn btn-sm color-na-darkblack-background text-white" data-toggle="modal" data-target="#assignToUser" value="{{ product.id }}" onclick="setIdProduct(this.value)">
-                                            <i class="fas fa-user"> </i>
-                                            AssignTo
+                                            <i class="fas fa-cog"> </i>
+                                            History Action
                                         </button>
                                     </td>
                                     <td>
@@ -175,73 +168,46 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="assignToUserModalLabel">Assign To User</h5>
+                <h5 class="modal-title" id="assignToUserModalLabel">Action</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <form class="form" action="{{ path('product_assignToUser') }}" method="post">
                 <div class="modal-body">
-                    <div class="">
+                    <div class="form-group">
+                        <label class="required" for="product_status">Action:</label>
+                        <select id="product_status" name="product_status" class="form-control" onchange="toggleUser(this)" >
+                            <option value="instorage">In Storage</option>
+                            <option value="assigntouser">Assig To User</option>
+                            <option value="broken">Broken</option>
+                            <option value="sold">Sold</option>
+                            <option value="inrepair">In Repair</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group" id="userform" style="display: none;">
                         <label>Assign To User: <i class="fa fa-user"></i></label>
                         <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" name="userId" data-select2-id="1" tabindex="-1" aria-hidden="true">
                             {% for user in users %}
-                                <option value="{{ user.id }}"> 
-                                    {{ user.fullName }}
-                                    {% if user.userRoom %}
-                                        -> {{ user.userRoom }} 
-
-                                        {% if user.userRoom.department %} 
-                                            -> {{ user.userRoom.department}} 
-                                        {% endif %} 
-                                    {% endif  %}
-                                </option>
+                            <option value="{{ user.id }}">
+                                {{ user.fullName }}
+                                {% if user.userRoom %}
+                                -> {{ user.userRoom }}
+                                {% if user.userRoom.department %}
+                                -> {{ user.userRoom.department}}
+                                {% endif %}
+                                {% endif %}
+                            </option>
                             {% endfor %}
                         </select>
-                        <input type="hidden" name="_token" value="{{ csrf_token('assigntoUser') }}"/>
-                        <input type="hidden" name="productId" value="" id="productId">
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Assign it</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-<!-- History Modal -->
-<div class="modal fade" id="historyModal" tabindex="-1" role="dialog" aria-labelledby="historyModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="historyModalLabel">Assign To User</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <form class="form" action="{{ path('product_assignToUser') }}" method="post">
-                <div class="modal-body">
-                    <div class="">
-                        <label>Assign To User: <i class="fa fa-user"></i></label>
-                        <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" name="userId" data-select2-id="1" tabindex="-1" aria-hidden="true">
-                            {% for user in users %}
-                                <option value="{{ user.id }}"> 
-                                    {{ user.fullName }}
-                                    {% if user.userRoom %}
-                                        -> {{ user.userRoom }} 
-
-                                        {% if user.userRoom.department %} 
-                                            -> {{ user.userRoom.department}} 
-                                        {% endif %} 
-                                    {% endif  %}
-                                </option>
-                            {% endfor %}
-                        </select>
-                        <input type="hidden" name="_token" value="{{ csrf_token('assigntoUser') }}"/>
-                        <input type="hidden" name="productId" value="" id="productId">
+                    <div class="form-group">
+                        <label class="required" for="product_status">Note:</label>
+                        <textarea class="form-control" name="custommessage"></textarea>
                     </div>
+                    <input type="hidden" name="productId" value="" id="productId">
+                    <input type="hidden" name="_token" value="{{ csrf_token('assigntoUser') }}" />
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -255,14 +221,39 @@
 {% block javascripts %}
 <script src="{{ asset('plugins/select2/js/select2.full.min.js') }}"></script>
 <script type="text/javascript">
-    
-    // Function
-    function setIdProduct(id) {
-        document.getElementById("productId").value = id;
-        // console.log(document.getElementById("productId").value);
-    }
+// Function
+function setIdProduct(id) {
+    document.getElementById("productId").value = id;
+    // console.log(document.getElementById("productId").value);
+}
 
-    //Initialize Select2 Elements
-    $('.select2').select2();
+function toggleUser(select) {
+    var getElement = document.getElementById("userform");
+    
+    if (select.value == "assigntouser") {
+        if (getElement.style.display == "none") {
+            getElement.style.display = "block";
+        }
+    } else {
+        getElement.style.display = "none";
+    }
+}
+
+//Initialize Select2 Elements
+$('.select2').select2();
+
+$('#product').DataTable({
+     "dom": "<'row'<'col-md-6'l><'col-md-6'Bf>>" +
+"<'row'<'col-md-6'><'col-md-6'>>" +
+"<'row'<'col-md-12't>><'row'<'col-md-12'ip>>",
+    // "paging": true,
+    // "lengthChange": false,
+    // "searching": false,
+    // "ordering": true,
+    // "info": true,
+    // "autoWidth": false,
+});
+
+
 </script>
 {% endblock %}

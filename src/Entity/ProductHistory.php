@@ -22,24 +22,24 @@ class ProductHistory
     private $productId;
 
     /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private $message;
-
-    /**
      * @ORM\Column(type="datetime")
      */
     private $createdAt;
 
     /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $updatedAt;
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="productHistories")
      */
     private $createdBy;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $systemMessage;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $customMessage;
 
     public function __construct()
     {
@@ -63,18 +63,6 @@ class ProductHistory
         return $this;
     }
 
-    public function getMessage(): ?string
-    {
-        return $this->message;
-    }
-
-    public function setMessage(?string $message): self
-    {
-        $this->message = $message;
-
-        return $this;
-    }
-
     public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
@@ -87,18 +75,6 @@ class ProductHistory
         return $this;
     }
 
-    public function getUpdatedAt(): ?\DateTimeInterface
-    {
-        return $this->updatedAt;
-    }
-
-    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
-    {
-        $this->updatedAt = $updatedAt;
-
-        return $this;
-    }
-
     public function getCreatedBy(): ?User
     {
         return $this->createdBy;
@@ -107,6 +83,30 @@ class ProductHistory
     public function setCreatedBy(?User $createdBy): self
     {
         $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    public function getSystemMessage(): ?string
+    {
+        return $this->systemMessage;
+    }
+
+    public function setSystemMessage(?string $systemMessage): self
+    {
+        $this->systemMessage = $systemMessage;
+
+        return $this;
+    }
+
+    public function getCustomMessage(): ?string
+    {
+        return $this->customMessage;
+    }
+
+    public function setCustomMessage(?string $customMessage): self
+    {
+        $this->customMessage = $customMessage;
 
         return $this;
     }
