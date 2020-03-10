@@ -19,6 +19,10 @@ class ProductTypeRepository extends ServiceEntityRepository
         parent::__construct($registry, ProductType::class);
     }
 
+    public function getProductTotal(){
+
+    }
+
     // /**
     //  * @return ProductType[] Returns an array of ProductType objects
     //  */

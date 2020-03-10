@@ -32,12 +32,25 @@ class ProductRepository extends ServiceEntityRepository
     }
 
 
-    public function totalPrice()
+    // Get Total Price of Products
+    public function totalPrice():int
     {
         return $this->createQueryBuilder('p')
-                    ->select("SUM(p.price) as totalPrice")
-                    ->getQuery()
-                    ->getSingleScalarResult();
+            ->select('SUM(p.price) as totalPrice')
+            ->getQuery()
+            ->getSingleScalarResult()
+            ;
+    }
+
+    // Get Unused total Products
+    public function getUnusedProducts():int
+    {
+        return $this->createQueryBuilder('p')
+            ->select('Count(p.id)')
+            ->where("p.status = 'broken'")
+            ->getQuery()
+            ->getSingleScalarResult()
+            ;
     }
 
     // /**

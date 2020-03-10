@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\ProductTypeRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -18,11 +19,14 @@ class DashboardController extends AbstractController
 {
     /**
      * @Route("/", name="dashboard")
+     * @param ProductTypeRepository $productTypeRepository
+     * @param $a
+     * @return Response
      */
-    public function index()
+    public function index(ProductTypeRepository $productTypeRepository)
     {
         return $this->render('dashboard/index.html.twig', [
-            'controller_name' => 'DashboardController',
+            'productsType' => $productTypeRepository->findAll()
         ]);
     }
 }

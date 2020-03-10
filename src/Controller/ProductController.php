@@ -26,18 +26,28 @@ class ProductController extends AbstractController
      * @Route("/", defaults={"page": "1", "_format"="html", "limit" = "10"}, methods={"GET"}, name="product_index")
      * @Route("/page/{page<[1-9]\d*>}/{limit?}", defaults={"limit" = "10", "_format"="html"}, methods={"GET"}, name="product_index_paginated")
      * @Cache(smaxage="10")
+     * @param Request $request
+     * @param int $page
+     * @param int $limit
+     * @param string $_format
+     * @param ProductRepository $productRepository
+     * @param UserRepository $userRepository
+     * @return Response
      */
     public function index(Request $request, int $page, int $limit, string $_format, ProductRepository $productRepository, UserRepository $userRepository): Response
     {
         return $this->render('product/index.html.twig', [
             'products' => $productRepository->findLatest($page, $limit),
             'users' => $userRepository->findAll(),
-            'productPrices' => $productRepository->totalPrice()
+            'productPrices' => $productRepository->totalPrice(),
+            'unusedProducts' => $productRepository->getUnusedProducts()
         ]);
     }
 
     /**
      * @Route("/new", name="product_new", methods={"GET","POST"})
+     * @param Request $request
+     * @return Response
      */
     public function new(Request $request): Response
     {
@@ -62,6 +72,8 @@ class ProductController extends AbstractController
 
     /**
      * @Route("/{id}", name="product_show", methods={"GET"})
+     * @param Product $product
+     * @return Response
      */
     public function show(Product $product): Response
     {
@@ -72,6 +84,9 @@ class ProductController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="product_edit", methods={"GET","POST"})
+     * @param Request $request
+     * @param Product $product
+     * @return Response
      */
     public function edit(Request $request, Product $product): Response
     {
@@ -92,6 +107,10 @@ class ProductController extends AbstractController
 
     /**
      * @Route("/product_assign_to_user", name="product_assignToUser", methods={"GET","POST"})
+     * @param Request $request
+     * @param ProductRepository $productRepository
+     * @param UserRepository $userRepository
+     * @return Response
      */
     public function productAssignToUser(Request $request, ProductRepository $productRepository, UserRepository $userRepository): Response
     {
@@ -126,17 +145,16 @@ class ProductController extends AbstractController
                     return $this->redirectToRoute('product_index'); 
                 }
 
-                $userRoom = $userExist->getUserRoom();
-
                 // Assign Product to User
                 $product->setAssignToUser($userExist);
-                $product->setStatus('inuse');
-                $entityManager->persist($product);
 
-                $systemMessage = "Assigned.This product assigned to ".$userExist->getFullName().".Room Number: ".$userRoom;
+                $systemMessage = "Assigned.This product assigned to ".$userExist->getFullName();
             } else {
                 $systemMessage = $historyAction;
             }
+
+            $product->setStatus($historyAction);
+            $entityManager->persist($product);
 
             // Add Product History
             $productHistory = new ProductHistory();
@@ -159,6 +177,9 @@ class ProductController extends AbstractController
 
     /**
      * @Route("/{id}", name="product_delete", methods={"DELETE"})
+     * @param Request $request
+     * @param Product $product
+     * @return Response
      */
     public function delete(Request $request, Product $product): Response
     {
