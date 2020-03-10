@@ -63,9 +63,9 @@ class ProductHistory
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeInterface
+    public function getCreatedAt(): string
     {
-        return $this->createdAt;
+        return $this->createdAt->format("Y-m-d");
     }
 
     public function setCreatedAt(\DateTimeInterface $createdAt): self

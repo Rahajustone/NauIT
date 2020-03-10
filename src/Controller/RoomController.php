@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/room")
-* @IsGranted("ROLE_ADMIN")
+ * @IsGranted("ROLE_ADMIN")
  */
 class RoomController extends AbstractController
 {

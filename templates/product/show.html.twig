@@ -1,7 +1,5 @@
 {% extends 'parent.html.twig' %}
-
 {% block title %}Product{% endblock %}
-
 {% block content %}
 <div class="content-header px-5">
     <div class="container-fluid">
@@ -43,60 +41,110 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <table class="table table-bordered">
-                            <tbody>
-                                <tr>
-                                    <th>Id</th>
-                                    <td>{{ product.id }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Name</th>
-                                    <td>{{ product.name }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Serial Number</th>
-                                    <td>{{ product.serialnumber }}</td>
-                                </tr>
-                                <tr>
-                                    <th>IpAddress</th>
-                                    <td>{{ product.ipAddress }}</td>
-                                </tr>
-                                <tr>
-                                    <th>MacAdrress</th>
-                                    <td>{{ product.macAdrress }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Status</th>
-                                    <td>
-                                        {{ product.status }}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>Model Type</th>
-                                    <td>
-                                        {{ product.modeltype }}
-                                    </td>
-                                </tr>
-                                 <tr>
-                                    <th>Product Model</th>
-                                    <td>
-                                        {{ product.productModel }}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>Os</th>
-                                    <td>{{ product.os }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Price</th>
-                                    <td>{{ product.price }}</td>
-                                </tr>
-                                <tr>
-                                    <th> Comments </th>
-                                    <td>{{ product.comments }}</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <div class="col">
+                            <div class="card card-primary card-outline card-outline-tabs">
+                                <div class="card-header p-0 border-bottom-0">
+                                    <ul class="nav nav-tabs" id="custom-tabs-three-tab" role="tablist">
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="product-details-tab" data-toggle="pill" href="#product-details" role="tab" aria-controls="product-details" aria-selected="false">Details</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link active" id="product-history-tab" data-toggle="pill" href="#product-history" role="tab" aria-controls="product-history" aria-selected="true">History</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="card-body">
+                                    <div class="tab-content" id="custom-tabs-three-tabContent">
+                                        <div class="tab-pane fade" id="product-details" role="tabpanel" aria-labelledby="product-details-tab">
+                                            <table class="table table-bordered">
+                                                <tbody>
+                                                    <tr>
+                                                        <th>Id</th>
+                                                        <td>{{ product.id }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Name</th>
+                                                        <td>{{ product.name }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Serial Number</th>
+                                                        <td>{{ product.serialnumber }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>IpAddress</th>
+                                                        <td>{{ product.ipAddress }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>MacAdrress</th>
+                                                        <td>{{ product.macAdrress }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Status</th>
+                                                        <td>
+                                                            {{ product.status }}
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Model Type</th>
+                                                        <td>
+                                                            {{ product.modeltype }}
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Product Model</th>
+                                                        <td>
+                                                            {{ product.productModel }}
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Os</th>
+                                                        <td>{{ product.os }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Price</th>
+                                                        <td>{{ product.price }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th> Comments </th>
+                                                        <td>{{ product.comments }}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="tab-pane fade active show" id="product-history" role="tabpanel" aria-labelledby="product-history-tab">
+                                            {% for item in product.productHistories %}
+                                                <div class="callout callout-danger">
+                                                    <div class="row">
+                                                        <h5>{{ item.systemMessage }}</h5>
+                                                        <p>{{ item.customMessage }} </p>
+                                                        | <p> {{ item.createdAt }}</p>
+                                                    </div>
+                                                </div>
+                                            {% endfor %}
+                                            <!--  <div class="row">
+                                                    <div class="col-12">
+                                                        <div class="user-block">
+                                                            <img class="img-circle img-bordered-sm" src="../../dist/img/user1-128x128.jpg" alt="user image">
+                                                            <span class="username">
+                                                                <a href="#">Rahmatullo Kholov</a>
+                                                            </span>
+                                                            <span class="description">Shared publicly - 7:45 PM today</span>
+                                                        </div>                                                    
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <h5>I am a danger callout!</h5>
+                                                        <p>There is a problem that we need to fix. A wonderful serenity has taken possession of my entire
+                                                        soul,
+                                                        like these sweet mornings of spring which I enjoy with my whole heart.</p>
+                                                    </div>
+                                                    
+                                                </div> -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /.card -->
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
