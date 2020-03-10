@@ -20,6 +20,7 @@ class ProductRepository extends ServiceEntityRepository
         parent::__construct($registry, Product::class);
     }
 
+    // Pagination
     public function findLatest(int $page = 1, int $limit): Paginator
     {
         $qb = $this->createQueryBuilder('p')
@@ -28,6 +29,15 @@ class ProductRepository extends ServiceEntityRepository
         ;
 
         return (new Paginator($qb))->paginate($page, $limit);
+    }
+
+
+    public function totalPrice()
+    {
+        return $this->createQueryBuilder('p')
+                    ->select("SUM(p.price) as totalPrice")
+                    ->getQuery()
+                    ->getSingleScalarResult();
     }
 
     // /**

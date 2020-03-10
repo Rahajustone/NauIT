@@ -32,6 +32,7 @@ class ProductController extends AbstractController
         return $this->render('product/index.html.twig', [
             'products' => $productRepository->findLatest($page, $limit),
             'users' => $userRepository->findAll(),
+            'productPrices' => $productRepository->totalPrice()
         ]);
     }
 
