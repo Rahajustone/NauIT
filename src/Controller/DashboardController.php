@@ -25,11 +25,15 @@ class DashboardController extends AbstractController
      * @param ProductTypeRepository $productTypeRepository
      * @param ProductRepository $productRepository
      * @param DepartmentRepository $departmentRepository
+     * @param UserRepository $userRepository
      * @return Response
      * @throws \Doctrine\ORM\NoResultException
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function index(ProductTypeRepository $productTypeRepository, ProductRepository $productRepository, DepartmentRepository $departmentRepository, UserRepository $userRepository)
+    public function index(ProductTypeRepository $productTypeRepository,
+                          ProductRepository $productRepository,
+                          DepartmentRepository $departmentRepository,
+                          UserRepository $userRepository)
     {
         return $this->render('dashboard/index.html.twig', [
             'productsType' => $productTypeRepository->findAll(),
