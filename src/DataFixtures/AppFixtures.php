@@ -67,7 +67,7 @@ class AppFixtures extends Fixture
             $product = new Product();
             $product->setName('Product '.$i);
             $product->setIpAddress($this->generateIpAddress());
-            $product->setMacAdrress($this->generateMacAddress());
+            $product->setMacAddress($this->generateMacAddress());
             $product->setOs($this->generateOs());
             $product->setPrice(mt_rand(10, 100));
             $product->setUpdatedAt();

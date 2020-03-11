@@ -1,58 +1,80 @@
-<div class="col-md-9 col-sm-12 col-12">
+<div class="col-md-12 col-sm-12 col-12">
     <div class="card card">
         <div class="card-header">
-            <h3 class="card-title">Quick Example</h3>
+            <h3 class="card-title">Product</h3>
+            <a href="{{ path('product_index') }}" class="btn btn-default btn-sm mr-1 float-right">
+                <i class="fa fa-arrow-left"></i>
+            </a>
         </div>
         <!-- /.card-header -->
         <!-- form start -->
         {{ form_start(form) }}
-            <div class="card-body">
-                {{ form_widget(form) }}
-            </div>
-            <!-- /.card-body -->
-            <div class="card-footer">
-                <button type="submit" class="btn btn-primary">{{ button_label }}</button>
-            </div>
-        {{ form_end(form) }}    
-    </div>
-</div>
-<div class="col-md-3 col-sm-12 col-12">
-    <div class="card card">
-        <div class="card-header">
-            <h3 class="card-title">Quick Example</h3>
+        <div class="my-custom-class-for-errors">
+            {{ form_errors(form) }}
         </div>
-        <!-- /.card-header -->
-        <!-- form start -->
-        <form role="form">
-            <div class="card-body">
-                <div class="form-group">
-                    <label>From IP mask:</label>
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="fas fa-laptop"></i></span>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-6">
+                    {{ form_row(form.name) }}
+                    <div class="form-group">
+                        {{ form_label(form.serialNumber) }}
+                        <div class="input-group">
+                            {{ form_widget(form.serialNumber, {attr: {'class' : 'form-control'}}) }}
+                            <span class="input-group-append">
+                                <button type="button" class="btn btn-info btn-flat" id="serialNumber"><i class="fas fa-barcode"></i></button>
+                            </span>
                         </div>
-                        <input type="text" class="form-control" data-inputmask="'alias': 'ip'" data-mask="" im-insert="true">
-                    </div>
-                    <!-- /.input group -->
-                </div>
-                <div class="form-group">
-                    <label>To IP mask:</label>
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="fas fa-laptop"></i></span>
+                        <small>{{ form_help(form.serialNumber) }}</small>
+                        <div class="form-error">
+                            {{ form_errors(form.serialNumber) }}
                         </div>
-                        <input type="text" class="form-control" data-inputmask="'alias': 'ip'" data-mask="" im-insert="true">
                     </div>
-                    <!-- /.input group -->
+
+                    <div class="form-group">
+                        {{ form_label(form.macAddress) }}
+                        <div class="input-group">
+                            {{ form_widget(form.macAddress, {attr: {'class' : 'form-control macnumber'}}) }}
+                            <span class="input-group-append">
+                                <button type="button" class="btn btn-info btn-flat" id="macAddress"><i class="fas fa-gem "></i></button>
+                            </span>
+                        </div>
+                        <small>{{ form_help(form.macAddress) }}</small>
+                        <div class="form-error">
+                            {{ form_errors(form.macAddress) }}
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        {{ form_label(form.ipAddress) }}
+                        <div class="input-group">
+                            {{ form_widget(form.ipAddress, {attr: {'class' : 'form-control ipnumber'}}) }}
+                            <span class="input-group-append">
+                                <button type="button" class="btn btn-info btn-flat" id="ipAddress"><i class="fas fa-gem "></i></button>
+                            </span>
+                        </div>
+                        <small>{{ form_help(form.ipAddress) }}</small>
+                        <div class="form-error">
+                            {{ form_errors(form.ipAddress) }}
+                        </div>
+                    </div>
+                    {{ form_row(form.quantity) }}
                 </div>
-                <div class="form-group">
-                    <button type="submit" class="btn btn-primary float-right">Submit</button>
+                <div class="col-6">
+                    {{ form_row(form.os) }}
+                    {{ form_row(form.status) }}
+                    {{ form_row(form.modelType) }}
+                    {{ form_row(form.productModel) }}
+                    {{ form_row(form.price) }}
+                </div>
+                <div class="col-md-12">
+                    {{ form_row(form.comments) }}
                 </div>
             </div>
-            <!-- /.card-body -->
-            <!-- <div class="card-footer py-1">
-                <button type="submit" class="btn btn-primary float-right">Submit</button>
-            </div> -->
-        </form>
+        </div>
+        <!-- /.card-body -->
+        <div class="card-footer clearfix">
+            <button type="submit" class="btn color-na-green-background float-right text-white">{{ button_label }}</button>
+        </div>
+        {{ form_end(form) }}    
     </div>
 </div>

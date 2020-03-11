@@ -46,16 +46,16 @@
                                 <div class="card-header p-0 border-bottom-0">
                                     <ul class="nav nav-tabs" id="custom-tabs-three-tab" role="tablist">
                                         <li class="nav-item">
-                                            <a class="nav-link" id="product-details-tab" data-toggle="pill" href="#product-details" role="tab" aria-controls="product-details" aria-selected="false">Details</a>
+                                            <a class="nav-link active" id="product-details-tab" data-toggle="pill" href="#product-details" role="tab" aria-controls="product-details" aria-selected="false">Details</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link active" id="product-history-tab" data-toggle="pill" href="#product-history" role="tab" aria-controls="product-history" aria-selected="true">History</a>
+                                            <a class="nav-link" id="product-history-tab" data-toggle="pill" href="#product-history" role="tab" aria-controls="product-history" aria-selected="true">History</a>
                                         </li>
                                     </ul>
                                 </div>
                                 <div class="card-body">
                                     <div class="tab-content" id="custom-tabs-three-tabContent">
-                                        <div class="tab-pane fade" id="product-details" role="tabpanel" aria-labelledby="product-details-tab">
+                                        <div class="tab-pane" id="product-details" role="tabpanel" aria-labelledby="product-details-tab">
                                             <table class="table table-bordered">
                                                 <tbody>
                                                     <tr>
@@ -76,7 +76,7 @@
                                                     </tr>
                                                     <tr>
                                                         <th>MacAdrress</th>
-                                                        <td>{{ product.macAdrress }}</td>
+                                                        <td>{{ product.macAddress }}</td>
                                                     </tr>
                                                     <tr>
                                                         <th>Status</th>

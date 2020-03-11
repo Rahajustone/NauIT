@@ -8,6 +8,7 @@ use App\Entity\ProductType as ProductModelType;
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -23,12 +24,8 @@ class ProductType extends AbstractType
         $builder
             ->add('name')
             ->add('serialNumber')
-            ->add('ipAddress', TextType::class, [ 
-                "attr" => [ "class" => "ipnumber"]
-                ])
-            ->add('macAdrress', TextType::class, [
-                "attr" => [ "class" => "macnumber"]
-            ])
+            ->add('ipAddress', TextType::class)
+            ->add('macAddress', TextType::class)
             ->add('os', ChoiceType::class, [
                 'choices' => [
                     "Windows" => "Windows",
@@ -59,7 +56,7 @@ class ProductType extends AbstractType
             ->add('quantity', IntegerType::class, [
                 'data' => '1'
             ])
-            ->add('comments', TextType::class)
+            ->add('comments', TextareaType::class)
         ;
     }
 

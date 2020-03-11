@@ -31,7 +31,7 @@ class Product
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $macAdrress;
+    private $macAddress;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -140,14 +140,14 @@ class Product
         return $this;
     }
 
-    public function getMacAdrress(): ?string
+    public function getMacAddress(): ?string
     {
-        return $this->macAdrress;
+        return $this->macAddress;
     }
 
-    public function setMacAdrress(string $macAdrress): self
+    public function setMacAddress(string $macAddress): self
     {
-        $this->macAdrress = $macAdrress;
+        $this->macAddress = $macAddress;
 
         return $this;
     }

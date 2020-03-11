@@ -4,45 +4,69 @@
 
 {% block content %}
     <div class="content-header px-5">
-    <div class="container-fluid">
-        <div class="row my-3">
-            <div class="col-sm-6">
-                <h1 class="m-0 text-dark">Create New Product</h1>
-            </div><!-- /.col -->
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href=" {{ path('dashboard') }} ">Home</a></li>
-                    <li class="breadcrumb-item"><a href=" {{ path('product_index') }} ">Product</a></li>
-                    <li class="breadcrumb-item active">Create Product</li>
-                </ol>
-            </div><!-- /.col -->
-        </div><!-- /.row -->
-    </div>
-</div>
-<section class="content px-5">
-    <div class="container-fluid">
-        <div class="row">
-            {{ include('product/_form.html.twig', {'button_label': 'Create'}) }}
+        <div class="container-fluid">
+            <div class="row my-3">
+                <div class="col-sm-6">
+                    <h1 class="m-0 text-dark">Create New Product</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href=" {{ path('dashboard') }} ">Home</a></li>
+                        <li class="breadcrumb-item"><a href=" {{ path('product_index') }} ">Product</a></li>
+                        <li class="breadcrumb-item active">Create Product</li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
         </div>
     </div>
-</section>
+    <section class="content px-5">
+        <div class="container-fluid">
+            <div class="row">
+                {{ include('product/_form.html.twig', {'button_label': 'Create'}) }}
+            </div>
+        </div>
+    </section>
 {% endblock %}
 {% block javascripts %}
     <script src="{{ asset('dist/js/cleave.js') }}"></script>
 
     <script type="text/javascript">
         // Ip Number
-        var cleave = new Cleave('.ipnumber', {
+        let ipNumber = new Cleave('.ipnumber', {
             delimiter: '.',
             blocks: [3, 3, 3, 3],
             uppercase: true
-        })
+        });
 
          // Mac Number
-        var cleave = new Cleave('.macnumber', {
+        let macNumber = new Cleave('.macnumber', {
             delimiter: ':',
             blocks: [2, 2, 2, 2, 2, 2],
             uppercase: true
         });
+
+        // Generate Mac Address
+        let generateMacAddress = () => "XX:XX:XX:XX:XX:XX".replace(/X/g, function() {
+            return "0123456789ABCDEF".charAt(Math.floor(Math.random() * 16))
+        });
+
+        $("#macAddress").click(function () {
+            macNumber.setRawValue(generateMacAddress());
+        });
+
+        // Generate IpAddress
+        let generateIpAddress = () => (Math.floor((Math.random() * 255)+1)+""+Math.floor((Math.random() * 255)+1)+""+Math.floor((Math.random() * 255)+1)+""+ Math.floor((Math.random() * 255)+1));
+        $("#ipAddress").click(function () {
+            ipNumber.setRawValue(generateIpAddress());
+        });
+
+        // Generate Serial number
+        let generateSerialNumber = () => ("NauIT-" + Math.floor((Math.random() * 100000000) + 1));
+
+        // Assign
+        $("#serialNumber").click(function () {
+            $("#product_serialNumber").val(generateSerialNumber());
+        });
+
     </script>
 {% endblock %}
