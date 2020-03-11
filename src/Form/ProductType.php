@@ -5,7 +5,9 @@ namespace App\Form;
 use App\Entity\Product;
 use App\Entity\ProductModel;
 use App\Entity\ProductType as ProductModelType;
+use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -54,6 +56,9 @@ class ProductType extends AbstractType
                 'choice_label' => 'name'
             ])
             ->add('price')
+            ->add('quantity', IntegerType::class, [
+                'data' => '1'
+            ])
             ->add('comments', TextType::class)
         ;
     }
