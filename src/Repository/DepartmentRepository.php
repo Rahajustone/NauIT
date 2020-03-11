@@ -30,6 +30,21 @@ class DepartmentRepository extends ServiceEntityRepository
         return (new Paginator($qb))->paginate($page, $limit);
     }
 
+    /**
+     * @return mixed
+     * @throws \Doctrine\ORM\NoResultException
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function getTotalDepartment():int
+    {
+        return $this->createQueryBuilder('d')
+            ->select('COUNT(d.id) as total')
+            ->getQuery()
+            ->getSingleScalarResult()
+            ;
+    }
+
+
     // /**
     //  * @return Department[] Returns an array of Department objects
     //  */

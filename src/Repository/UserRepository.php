@@ -52,13 +52,23 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
 
     /**
-     * See User is Exist Or not
+     * User exist or not
+     * @param $userId
+     * @return bool
      */
     public function userExist($userId): bool
     {
         return $this->find($userId) ? true : false ;
     }
 
+    public function getTotalUser()
+    {
+        return $this->createQueryBuilder('u')
+            ->select('COUNT(u.id)')
+            ->getQuery()
+            ->getSingleScalarResult()
+            ;
+    }
 
     // /**
     //  * @return User[] Returns an array of User objects

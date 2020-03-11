@@ -2,7 +2,10 @@
 
 namespace App\Controller;
 
+use App\Repository\DepartmentRepository;
+use App\Repository\ProductRepository;
 use App\Repository\ProductTypeRepository;
+use App\Repository\UserRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -20,13 +23,19 @@ class DashboardController extends AbstractController
     /**
      * @Route("/", name="dashboard")
      * @param ProductTypeRepository $productTypeRepository
-     * @param $a
+     * @param ProductRepository $productRepository
+     * @param DepartmentRepository $departmentRepository
      * @return Response
+     * @throws \Doctrine\ORM\NoResultException
+     * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function index(ProductTypeRepository $productTypeRepository)
+    public function index(ProductTypeRepository $productTypeRepository, ProductRepository $productRepository, DepartmentRepository $departmentRepository, UserRepository $userRepository)
     {
         return $this->render('dashboard/index.html.twig', [
-            'productsType' => $productTypeRepository->findAll()
+            'productsType' => $productTypeRepository->findAll(),
+            'totalProduct' => $productRepository->getTotalProduct(),
+            'totalDepartment' => $departmentRepository->getTotalDepartment(),
+            'totalUser' => $userRepository->getTotalUser()
         ]);
     }
 }

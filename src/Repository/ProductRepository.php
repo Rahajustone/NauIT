@@ -31,6 +31,19 @@ class ProductRepository extends ServiceEntityRepository
         return (new Paginator($qb))->paginate($page, $limit);
     }
 
+    /**
+     * @return mixed
+     * @throws \Doctrine\ORM\NoResultException
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function getTotalProduct()
+    {
+        return $this->createQueryBuilder('p')
+            ->select('COUNT(p.id) as totalProduct')
+            ->getQuery()
+            ->getSingleScalarResult()
+            ;
+    }
 
     // Get Total Price of Products
     public function totalPrice():int

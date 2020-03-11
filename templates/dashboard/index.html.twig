@@ -21,7 +21,7 @@
                         <i class="fas fa-industry color-na-green"></i>
                     </span>
                     <div class="info-box-content">
-                        <span class="info-box-number color-na-green"> № 123131</span>
+                        <span class="info-box-number color-na-green"> № {{ totalProduct }}</span>
                         <span class="info-box-text text-muted">Total Product</span>
                     </div>
                     <!-- /.info-box-content -->
@@ -38,7 +38,7 @@
                         <i class="fas fa-building color-na-blue"></i>
                     </span>
                     <div class="info-box-content">
-                        <span class="info-box-number text color-na-blue"> $ 2121.21 </span>
+                        <span class="info-box-number text color-na-blue"> № {{ totalDepartment }} </span>
                         <span class="info-box-text">Total Department</span>
                     </div>
                     <!-- /.info-box-content -->
@@ -58,7 +58,7 @@
                         <!-- <i class="fas fa-digital-tachograph"></i>   -->
                     </span>
                     <div class="info-box-content">
-                        <span class="info-box-number text color-na-red"> № 2121 </span>
+                        <span class="info-box-number text color-na-red"> № {{ totalUser }} </span>
                         <span class="info-box-text">Total Users</span>
                     </div>
                     <!-- /.info-box-content -->
@@ -72,12 +72,11 @@
             <!-- /.col -->
             <div class="col-md-3 col-sm-6 col-12">
                 <div class="info-box py-4">
-                    <span class="info-box-icon circle color-na-red-border">
-                        <i class="fas fa-digital-tachograph color-na-green color-na-red"></i>
-                        <!-- <i class="fas fa-digital-tachograph"></i>   -->
+                    <span class="info-box-icon circle text-gray">
+                        <i class="fas fa-digital-tachograph text-gray"></i>
                     </span>
                     <div class="info-box-content">
-                        <span class="info-box-number text color-na-red"> № 2121 </span>
+                        <span class="info-box-number text text-gray"> № 2121 </span>
                         <span class="info-box-text">Unusing products</span>
                     </div>
                     <!-- /.info-box-content -->
@@ -96,11 +95,11 @@
 <div class="content px-3">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-12 col-md-6">
                 <!-- DONUT CHART -->
                 <div class="card card-info">
                     <div class="card-header py-2">
-                        <h4 class="card-title">Product Type</h4>
+                        <h4 class="card-title">Device Type</h4>
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
                             </button>
@@ -118,8 +117,8 @@
                                     <a href="#" class="nav-link">
                                         {{ productType.name }}
                                         <span class="float-right text-success">
-                                            <i class="fas fa-arrow-left text-sm"></i>
-                                            {{ productType.products|length}}  %
+                                            <!-- <i class="fas fa-arrow-left text-sm"></i> -->
+                                            {{ productType.products|length}} p
                                         </span>
                                     </a>
                                 </li>
@@ -128,6 +127,28 @@
                     </div>
                 </div>
             </div>
+            <div class="col-12 col-md-6">
+                <!-- BAR CHART -->
+                <div class="card card-success">
+                    <div class="card-header">
+                        <h3 class="card-title">Bar Chart</h3>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+                            </button>
+                            <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart">
+                            <canvas id="barChart" style="height:230px; min-height:230px"></canvas>
+                        </div>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            </div>
+
+
             <!-- /.row -->
         </div><!-- /.container-fluid -->
     </div>
@@ -171,5 +192,64 @@ var donutChart = new Chart(donutChartCanvas, {
     data: donutData,
     options: donutOptions
 })
+
+//--------------
+//- AREA CHART -
+//--------------
+
+// Get context with jQuery - using jQuery's .get() method.
+
+var areaChartData = {
+    labels  : ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+    datasets: [
+        {
+            label               : 'Digital Goods',
+            backgroundColor     : 'rgba(60,141,188,0.9)',
+            borderColor         : 'rgba(60,141,188,0.8)',
+            pointRadius          : false,
+            pointColor          : '#3b8bba',
+            pointStrokeColor    : 'rgba(60,141,188,1)',
+            pointHighlightFill  : '#fff',
+            pointHighlightStroke: 'rgba(60,141,188,1)',
+            data                : [28, 48, 40, 19, 86, 27, 90]
+        },
+        {
+            label               : 'Electronics',
+            backgroundColor     : 'rgba(210, 214, 222, 1)',
+            borderColor         : 'rgba(210, 214, 222, 1)',
+            pointRadius         : false,
+            pointColor          : 'rgba(210, 214, 222, 1)',
+            pointStrokeColor    : '#c1c7d1',
+            pointHighlightFill  : '#fff',
+            pointHighlightStroke: 'rgba(220,220,220,1)',
+            data                : [65, 59, 80, 81, 56, 55, 40]
+        },
+    ]
+}
+
+
+//-------------
+//- BAR CHART -
+//-------------
+var barChartCanvas = $('#barChart').get(0).getContext('2d')
+var barChartData = jQuery.extend(true, {}, areaChartData)
+var temp0 = areaChartData.datasets[0]
+var temp1 = areaChartData.datasets[1]
+barChartData.datasets[0] = temp1
+barChartData.datasets[1] = temp0
+
+var barChartOptions = {
+    responsive              : true,
+    maintainAspectRatio     : false,
+    datasetFill             : false
+}
+
+var barChart = new Chart(barChartCanvas, {
+    type: 'bar',
+    data: barChartData,
+    options: barChartOptions
+})
+
+
 </script>
 {% endblock %}
