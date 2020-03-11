@@ -100,6 +100,11 @@ class Product
      */
     private $productHistories;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $Quantity;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
@@ -303,6 +308,18 @@ class Product
                 $productHistory->setProductId(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getQuantity(): ?int
+    {
+        return $this->Quantity;
+    }
+
+    public function setQuantity(?int $Quantity): self
+    {
+        $this->Quantity = $Quantity;
 
         return $this;
     }
