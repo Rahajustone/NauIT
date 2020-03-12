@@ -25,6 +25,12 @@ class UserController extends AbstractController
      * @Route("/", defaults={"page": "1", "_format"="html", "limit" = "10"}, methods={"GET"}, name="user_index")
      * @Route("/page/{page<[1-9]\d*>}/{limit?}", defaults={"limit" = "10", "_format"="html"}, methods={"GET"}, name="user_index_paginated")
      * @Cache(smaxage="10")
+     * @param Request $request
+     * @param int $page
+     * @param int $limit
+     * @param string $_format
+     * @param UserRepository $userRepository
+     * @return Response
      */
     public function index(Request $request, int $page, int $limit, string $_format, UserRepository $userRepository): Response
     {

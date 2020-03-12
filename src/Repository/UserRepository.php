@@ -61,6 +61,11 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         return $this->find($userId) ? true : false ;
     }
 
+    /**
+     * @return totalUser
+     * @throws \Doctrine\ORM\NoResultException
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
     public function getTotalUser()
     {
         return $this->createQueryBuilder('u')
