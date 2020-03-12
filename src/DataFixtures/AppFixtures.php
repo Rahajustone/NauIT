@@ -2,6 +2,8 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\ProductModel;
+use App\Entity\ProductType;
 use App\Entity\User;
 use App\Entity\Role;
 use App\Entity\Product;
@@ -20,18 +22,40 @@ class AppFixtures extends Fixture
         $this->passwordEncoder = $passwordEncoder;
     }
 
+    /**
+     * @param ObjectManager $manager
+     */
     public function load(ObjectManager $manager)
     {
-        $this->loadUser($manager);
-        $this->loadProduct($manager);
-        $this->loadRooms($manager);
-        $this->loadDepartment($manager);
         $this->loadRole($manager);
+        $this->loadUser($manager);
+        $this->loadDepartment($manager);
+        $this->loadRoom($manager);
+        $this->loadProductModel($manager);
+        $this->loadProductType($manager);
+        $this->loadProduct($manager);
 
         $manager->flush();
     }
 
-    public function loadUser(ObjectManager $manager)
+    /**
+     * @param ObjectManager $manager
+     */
+    private function loadRole(ObjectManager $manager)
+    {
+        $role = new Role();
+        $role->setName('ROLE_ADMIN');
+        $manager->persist($role);
+
+        $roleUser = new Role();
+        $roleUser->setName('ROLE_USER');
+        $manager->persist($roleUser);
+    }
+
+    /**
+     * @param ObjectManager $manager
+     */
+    private function loadUser(ObjectManager $manager)
     {
         foreach ($this->getUserData() as [$fullname, $username, $password, $email, $roles]) {
             $user = new User();
@@ -48,19 +72,43 @@ class AppFixtures extends Fixture
         $manager->flush();
     }
 
-    public function loadRole(ObjectManager $manager)
-    {
-        $role = new Role();
-        $role->setName('ROLE_ADMIN');
-        $manager->persist($role);
+    /**
+     * @param ObjectManager $manager
+     */
+    private  function loadProductModel(ObjectManager $manager){
+        for ( $i=0; $i< 200; $i++){
+            $productModel = new ProductModel();
+            $productModel->setName($this->strGenerator(7));
+            $productModel->setCreatedBy($this->getReference('user'));
+            $manager->persist($productModel);
 
-        $roleUser = new Role();
-        $roleUser->setName('ROLE_USER');
-        $manager->persist($roleUser);
+            $this->addReference('productModel', $productModel);
+        }
+
+        $manager->flush();
     }
 
+    /**
+     * @param ObjectManager $manager
+     */
+    private function loadProductType(ObjectManager $manager){
+        for ($i =0; $i< 150; $i++){
+            $productType = new ProductType();
+            $productType->setName($this->strGenerator(7));
+            $productType->setCreatedBy($this->getReference('user'));
 
-    public function loadProduct(ObjectManager $manager)
+            $manager->persist($productType);
+
+            $this->addReference('productType', $productType);
+        }
+
+        $manager->flush();
+    }
+
+    /**
+     * @param ObjectManager $manager
+     */
+    private function loadProduct(ObjectManager $manager)
     {
 
         for ($i = 0; $i < 200; $i++) {
@@ -72,13 +120,20 @@ class AppFixtures extends Fixture
             $product->setPrice(mt_rand(10, 100));
             $product->setUpdatedAt();
             $product->setCreatedBy($this->getReference('user'));
+            $product->setModelType($this->getReference('productType'));
+            $product->setProductModel($this->getReference('productModel'));
+            $product->setStatus("inuse");
+            $product->setSerialNumber($this->generateSerialNumber());
             $manager->persist($product);
         }
 
         $manager->flush();
     }
 
-    public function loadRooms(ObjectManager $manager)
+    /**
+     * @param ObjectManager $manager
+     */
+    private function loadRoom(ObjectManager $manager)
     {
         for ($i = 0; $i < 200; $i++) {
             $product = new Room();
@@ -89,7 +144,10 @@ class AppFixtures extends Fixture
         }
     }
 
-    public function loadDepartment(ObjectManager $manager)
+    /**
+     * @param ObjectManager $manager
+     */
+    private function loadDepartment(ObjectManager $manager)
     {
         for ($i = 0; $i < 200; $i++) {
             $department = new Department();
@@ -99,16 +157,25 @@ class AppFixtures extends Fixture
         }
     }
 
+    /**
+     * @return string
+     */
     private function generateIpAddress()
     {
         return  "".mt_rand(0,255).".".mt_rand(0,255).".".mt_rand(0,255).".".mt_rand(0,255);
     }
 
+    /**
+     * @return string
+     */
     private function generateMacAddress()
     {
         return implode(':', str_split(substr(md5(mt_rand()), 0, 12), 2));
     }
 
+    /**
+     * @return mixed
+     */
     private function generateOs()
     {
         $os = ["Linux", 'Windows', "Macos"];
@@ -116,6 +183,18 @@ class AppFixtures extends Fixture
         return $os[mt_rand(0,2)];
     }
 
+    /**
+     * @return string
+     */
+    private function generateSerialNumber():string
+    {
+        return "NU".$this->strGenerator(8);
+    }
+
+    /**
+     * @param $length
+     * @return string
+     */
     private function strGenerator($length)
     { 
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'; 
@@ -129,6 +208,9 @@ class AppFixtures extends Fixture
         return $randomString; 
     }
 
+    /**
+     * @return array
+     */
     private function getUserData(): array
     {
         return [
