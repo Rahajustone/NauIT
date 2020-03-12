@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Department;
 use App\Form\DepartmentType;
 use App\Repository\DepartmentRepository;
+use App\Repository\RoomRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -31,11 +32,22 @@ class DepartmentController extends AbstractController
      * @Route("/", defaults={"page": "1", "_format"="html", "limit" = "10"}, methods={"GET"}, name="department_index")
      * @Route("/page/{page<[1-9]\d*>}/{limit?}", defaults={"limit" = "10", "_format"="html"}, methods={"GET"}, name="department_index_paginated")
      * @Cache(smaxage="10")
+     * @param Request $request
+     * @param int $page
+     * @param int $limit
+     * @param string $_format
+     * @param DepartmentRepository $departmentRepository
+     * @param RoomRepository $roomRepository
+     * @return Response
+     * @throws \Doctrine\ORM\NoResultException
+     * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function index(Request $request, int $page, int $limit, string $_format, DepartmentRepository $departmentRepository): Response
+    public function index(Request $request, int $page, int $limit, string $_format, DepartmentRepository $departmentRepository, RoomRepository $roomRepository): Response
     {
         return $this->render('department/index.html.twig', [
             'departments' => $departmentRepository->findLatest($page, $limit),
+            'totalDepartments' => $departmentRepository->getTotalDepartment(),
+            'totalRooms' => $roomRepository->getTotalRooms()
         ]);
     }
 

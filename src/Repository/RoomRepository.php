@@ -31,6 +31,19 @@ class RoomRepository extends ServiceEntityRepository
         return (new Paginator($qb))->paginate($page, $limit);
     }
 
+    /**
+     * @return mixed
+     * @throws \Doctrine\ORM\NoResultException
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function getTotalRooms():int
+    {
+        return $this->createQueryBuilder('r')
+            ->select('COUNT(r.id)')
+            ->getQuery()
+            ->getSingleScalarResult()
+            ;
+    }
 
     // /**
     //  * @return Room[] Returns an array of Room objects
