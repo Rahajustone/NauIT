@@ -46,7 +46,7 @@ class ProductRepository extends ServiceEntityRepository
     }
 
     // Get Total Price of Products
-    public function totalPrice():int
+    public function totalPrice():?int
     {
         return $this->createQueryBuilder('p')
             ->select('SUM(p.price) as totalPrice')
@@ -56,7 +56,7 @@ class ProductRepository extends ServiceEntityRepository
     }
 
     // Get Unused total Products
-    public function getUnusedProducts():int
+    public function getUnusedProducts():?int
     {
         return $this->createQueryBuilder('p')
             ->select('Count(p.id)')

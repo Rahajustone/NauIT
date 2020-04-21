@@ -35,7 +35,7 @@ class DepartmentRepository extends ServiceEntityRepository
      * @throws \Doctrine\ORM\NoResultException
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function getTotalDepartment():int
+    public function getTotalDepartment():?int
     {
         return $this->createQueryBuilder('d')
             ->select('COUNT(d.id) as total')

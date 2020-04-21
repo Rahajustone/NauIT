@@ -82,7 +82,7 @@ class AppFixtures extends Fixture
             $productModel->setCreatedBy($this->getReference('user'));
             $manager->persist($productModel);
 
-            $this->addReference('productModel', $productModel);
+            $this->setReference("loadProductModel", $productModel);
         }
 
         $manager->flush();
@@ -99,7 +99,7 @@ class AppFixtures extends Fixture
 
             $manager->persist($productType);
 
-            $this->addReference('productType', $productType);
+            $this->setReference("loadProductType", $productType);
         }
 
         $manager->flush();
@@ -120,8 +120,8 @@ class AppFixtures extends Fixture
             $product->setPrice(mt_rand(10, 100));
             $product->setUpdatedAt();
             $product->setCreatedBy($this->getReference('user'));
-            $product->setModelType($this->getReference('productType'));
-            $product->setProductModel($this->getReference('productModel'));
+            $product->setModelType($this->getReference('loadProductType'));
+            $product->setProductModel($this->getReference('loadProductModel'));
             $product->setStatus("inuse");
             $product->setSerialNumber($this->generateSerialNumber());
             $manager->persist($product);

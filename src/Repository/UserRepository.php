@@ -66,7 +66,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
      * @throws \Doctrine\ORM\NoResultException
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function getTotalUser()
+    public function getTotalUser():?int
     {
         return $this->createQueryBuilder('u')
             ->select('COUNT(u.id)')

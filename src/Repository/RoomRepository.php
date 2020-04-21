@@ -36,7 +36,7 @@ class RoomRepository extends ServiceEntityRepository
      * @throws \Doctrine\ORM\NoResultException
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function getTotalRooms():int
+    public function getTotalRooms():?int
     {
         return $this->createQueryBuilder('r')
             ->select('COUNT(r.id)')
