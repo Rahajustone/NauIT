@@ -133,6 +133,11 @@ class User implements UserInterface, \Serializable
      */
     private $productHistories;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $profilePhoto;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
@@ -521,6 +526,18 @@ class User implements UserInterface, \Serializable
                 $productHistory->setCreatedBy(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getProfilePhoto(): ?string
+    {
+        return $this->profilePhoto;
+    }
+
+    public function setProfilePhoto(?string $profilePhoto): self
+    {
+        $this->profilePhoto = $profilePhoto;
 
         return $this;
     }

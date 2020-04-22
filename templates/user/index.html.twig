@@ -117,6 +117,7 @@
                             <thead>
                                 <tr>
                                     <th>Id</th>
+                                    <th>Profile Photo</th>
                                     <th>FullName</th>
                                     <th>Username</th>
                                     <th>Email</th>
@@ -131,6 +132,13 @@
                             {% for user in users.results %}
                                 <tr>
                                     <td>{{ user.id }}</td>
+                                    <td> 
+                                        <img class="img img-fluid rounded mx-auto d-block" width="50px" src="{% if user.profilePhoto %}
+                                        {{ asset('uploads/profile_photo/' ~ user.profilePhoto) }}
+                                        {% else %}
+                                            {{ asset('uploads/profile_photo/noprofilephoto.jpg') }}
+                                        {% endif %}  ">
+                                </td>
                                     <td>{{ user.fullName }}</td>
                                     <td>{{ user.username }}</td>
                                     <td>{{ user.email }}</td>
