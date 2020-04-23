@@ -134,8 +134,13 @@ class Department
         return $this;
     }
 
-    public function __toString(): string
+    // public function __toString(): string
+    // {
+    //     return $this->Name;
+    // }
+
+    public function __toString()
     {
-        return $this->Name;
+        return "Name: {$this->Name}";
     }
 }

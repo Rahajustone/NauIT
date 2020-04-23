@@ -26,7 +26,19 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
-
     App\Services\FileUploader:
         arguments:
             $targetDirectory: '%profile_photo%'
+
+
+    # App\EventListener\KernelResponseListener:
+    #     tags:
+    #         - { name: kernel.event_listener, event: kernel.response }
+
+    # App\EventListener\AddHistoryListener:
+    #     tags:
+    #         - { name: doctrine.event_listener, event: postPersist }
+
+    App\EventListener\DatabaseActivitySubscriber:
+        tags:
+            - { name: doctrine.event_subscriber }
