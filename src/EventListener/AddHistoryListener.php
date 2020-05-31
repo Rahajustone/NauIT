@@ -21,4 +21,9 @@ class AddHistoryListener
 		// die("I am here");
 	}
 
+	public function prePost(LifecycleEventArgs $args)
+	{
+		return $args;
+	}
+
 }
