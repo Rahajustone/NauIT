@@ -20,7 +20,7 @@
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
         <!-- Messages Dropdown Menu -->
-        <li class="nav-item dropdown">
+        {# <li class="nav-item dropdown">
             <a class="nav-link" data-toggle="dropdown" href="#">
                 <i class="far fa-comments"></i>
                 <span class="badge badge-danger navbar-badge">3</span>
@@ -76,7 +76,7 @@
                 <div class="dropdown-divider"></div>
                 <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
             </div>
-        </li>
+        </li> #}
         <!-- Notifications Dropdown Menu -->
         <li class="nav-item dropdown border-right">
             <a class="nav-link" data-toggle="dropdown" href="#">
@@ -108,10 +108,14 @@
             <!-- Sidebar user panel (optional) -->
             <div class="user-panel d-flex">
                 <div class="info">
-                    <a href="#" class="d-block text-muted"> Rahmatullo Kholov</a>
+                    <a href="#" class="d-block text-muted"> {{ app.user.fullname }}</a>
                 </div>
                 <div class="image">
-                    <img src="{{ asset('images/profilefoto.jpg') }}" class="img-circle elevation-2" alt="User Image">
+                    {% if app.user.profilePhoto %}
+                        <img src="{{ asset('uploads/profile_photo/'~ app.user.profilePhoto) }}" class="img-circle elevation-2" alt="User Image">
+                    {% else %}
+                        <img src="{{ asset('uploads/profile_photo/noprofilephoto.jpg') }}" class="img-circle elevation-2" alt="User Image">
+                    {% endif %}
                 </div>
             </div>
             <!-- Sidebar Menu -->
