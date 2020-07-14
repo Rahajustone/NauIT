@@ -11,6 +11,7 @@ use App\Entity\Room;
 use App\Entity\Department;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
+
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class AppFixtures extends Fixture
@@ -76,7 +77,7 @@ class AppFixtures extends Fixture
      * @param ObjectManager $manager
      */
     private  function loadProductModel(ObjectManager $manager){
-        for ( $i=0; $i< 200; $i++){
+        for ( $i=0; $i< 1; $i++){
             $productModel = new ProductModel();
             $productModel->setName($this->strGenerator(7));
             $productModel->setCreatedBy($this->getReference('user'));
@@ -92,7 +93,7 @@ class AppFixtures extends Fixture
      * @param ObjectManager $manager
      */
     private function loadProductType(ObjectManager $manager){
-        for ($i =0; $i< 150; $i++){
+        for ($i =0; $i< 1; $i++){
             $productType = new ProductType();
             $productType->setName($this->strGenerator(7));
             $productType->setCreatedBy($this->getReference('user'));
@@ -111,7 +112,7 @@ class AppFixtures extends Fixture
     private function loadProduct(ObjectManager $manager)
     {
 
-        for ($i = 0; $i < 200; $i++) {
+        for ($i = 0; $i < 1; $i++) {
             $product = new Product();
             $product->setName('Product '.$i);
             $product->setIpAddress($this->generateIpAddress());
@@ -135,7 +136,7 @@ class AppFixtures extends Fixture
      */
     private function loadRoom(ObjectManager $manager)
     {
-        for ($i = 0; $i < 200; $i++) {
+        for ($i = 0; $i < 1; $i++) {
             $product = new Room();
             $product->setName('It'.$i);
             $product->setCreatedBy($this->getReference('user'));
@@ -149,7 +150,7 @@ class AppFixtures extends Fixture
      */
     private function loadDepartment(ObjectManager $manager)
     {
-        for ($i = 0; $i < 200; $i++) {
+        for ($i = 0; $i < 1; $i++) {
             $department = new Department();
             $department->setName('Department -'.$i);
             $department->setCreatedBy($this->getReference('user'));

@@ -1,0 +1,355 @@
+
+
+--
+-- Database: `nauit`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `department`
+--
+
+CREATE TABLE `department` (
+  `id` int(11) NOT NULL,
+  `created_by_id` int(11) NOT NULL,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `log_database_changes`
+--
+
+CREATE TABLE `log_database_changes` (
+  `id` int(11) NOT NULL,
+  `message` longtext COLLATE utf8_unicode_ci NOT NULL,
+  `context` longtext COLLATE utf8_unicode_ci NOT NULL COMMENT '(DC2Type:array)',
+  `level` smallint(6) DEFAULT NULL,
+  `levelname` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `extra` longtext COLLATE utf8_unicode_ci NOT NULL COMMENT '(DC2Type:array)',
+  `created_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `migration_versions`
+--
+
+CREATE TABLE `migration_versions` (
+  `version` varchar(14) COLLATE utf8_unicode_ci NOT NULL,
+  `executed_at` datetime NOT NULL COMMENT '(DC2Type:datetime_immutable)'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `product`
+--
+
+CREATE TABLE `product` (
+  `id` int(11) NOT NULL,
+  `created_by_id` int(11) NOT NULL,
+  `model_type_id` int(11) NOT NULL,
+  `product_model_id` int(11) NOT NULL,
+  `assign_to_user_id` int(11) DEFAULT NULL,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `ip_address` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `mac_address` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `os` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `price` int(11) DEFAULT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `comments` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `status` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `serial_number` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `quantity` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `product_history`
+--
+
+CREATE TABLE `product_history` (
+  `id` int(11) NOT NULL,
+  `product_id_id` int(11) DEFAULT NULL,
+  `created_by_id` int(11) DEFAULT NULL,
+  `created_at` datetime NOT NULL,
+  `system_message` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
+  `custom_message` longtext COLLATE utf8_unicode_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `product_model`
+--
+
+CREATE TABLE `product_model` (
+  `id` int(11) NOT NULL,
+  `created_by_id` int(11) NOT NULL,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `product_type`
+--
+
+CREATE TABLE `product_type` (
+  `id` int(11) NOT NULL,
+  `created_by_id` int(11) NOT NULL,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `role`
+--
+
+CREATE TABLE `role` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `room`
+--
+
+CREATE TABLE `room` (
+  `id` int(11) NOT NULL,
+  `created_by_id` int(11) NOT NULL,
+  `department_id` int(11) DEFAULT NULL,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `room_number` varchar(255) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user`
+--
+
+CREATE TABLE `user` (
+  `id` int(11) NOT NULL,
+  `user_room_id` int(11) DEFAULT NULL,
+  `full_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `username` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `password` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `roles` longtext CHARACTER SET utf8 COLLATE utf8_bin NOT NULL CHECK (json_valid(`roles`)),
+  `is_active` tinyint(1) NOT NULL,
+  `profile_photo` longtext COLLATE utf8_unicode_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `department`
+--
+ALTER TABLE `department`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `IDX_CD1DE18AB03A8386` (`created_by_id`);
+
+--
+-- Indexes for table `log_database_changes`
+--
+ALTER TABLE `log_database_changes`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `migration_versions`
+--
+ALTER TABLE `migration_versions`
+  ADD PRIMARY KEY (`version`);
+
+--
+-- Indexes for table `product`
+--
+ALTER TABLE `product`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `UNIQ_D34A04ADD948EE2` (`serial_number`),
+  ADD KEY `IDX_D34A04ADB03A8386` (`created_by_id`),
+  ADD KEY `IDX_D34A04ADA5DFE562` (`model_type_id`),
+  ADD KEY `IDX_D34A04ADB2C5DD70` (`product_model_id`),
+  ADD KEY `IDX_D34A04AD6D716643` (`assign_to_user_id`);
+
+--
+-- Indexes for table `product_history`
+--
+ALTER TABLE `product_history`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `IDX_F6636BFBDE18E50B` (`product_id_id`),
+  ADD KEY `IDX_F6636BFBB03A8386` (`created_by_id`);
+
+--
+-- Indexes for table `product_model`
+--
+ALTER TABLE `product_model`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `UNIQ_76C909855E237E06` (`name`),
+  ADD KEY `IDX_76C90985B03A8386` (`created_by_id`);
+
+--
+-- Indexes for table `product_type`
+--
+ALTER TABLE `product_type`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `UNIQ_13675885E237E06` (`name`),
+  ADD KEY `IDX_1367588B03A8386` (`created_by_id`);
+
+--
+-- Indexes for table `role`
+--
+ALTER TABLE `role`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `room`
+--
+ALTER TABLE `room`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `UNIQ_729F519BD7DED995` (`room_number`),
+  ADD KEY `IDX_729F519BB03A8386` (`created_by_id`),
+  ADD KEY `IDX_729F519BAE80F5DF` (`department_id`);
+
+--
+-- Indexes for table `user`
+--
+ALTER TABLE `user`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `UNIQ_8D93D649F85E0677` (`username`),
+  ADD UNIQUE KEY `UNIQ_8D93D649E7927C74` (`email`),
+  ADD KEY `IDX_8D93D649C1A6E99` (`user_room_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `department`
+--
+ALTER TABLE `department`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `log_database_changes`
+--
+ALTER TABLE `log_database_changes`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29301;
+
+--
+-- AUTO_INCREMENT for table `product`
+--
+ALTER TABLE `product`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `product_history`
+--
+ALTER TABLE `product_history`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `product_model`
+--
+ALTER TABLE `product_model`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `product_type`
+--
+ALTER TABLE `product_type`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `role`
+--
+ALTER TABLE `role`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `room`
+--
+ALTER TABLE `room`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `user`
+--
+ALTER TABLE `user`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `department`
+--
+ALTER TABLE `department`
+  ADD CONSTRAINT `FK_CD1DE18AB03A8386` FOREIGN KEY (`created_by_id`) REFERENCES `user` (`id`);
+
+--
+-- Constraints for table `product`
+--
+ALTER TABLE `product`
+  ADD CONSTRAINT `FK_D34A04AD6D716643` FOREIGN KEY (`assign_to_user_id`) REFERENCES `user` (`id`),
+  ADD CONSTRAINT `FK_D34A04ADA5DFE562` FOREIGN KEY (`model_type_id`) REFERENCES `product_type` (`id`),
+  ADD CONSTRAINT `FK_D34A04ADB03A8386` FOREIGN KEY (`created_by_id`) REFERENCES `user` (`id`),
+  ADD CONSTRAINT `FK_D34A04ADB2C5DD70` FOREIGN KEY (`product_model_id`) REFERENCES `product_model` (`id`);
+
+--
+-- Constraints for table `product_history`
+--
+ALTER TABLE `product_history`
+  ADD CONSTRAINT `FK_F6636BFBB03A8386` FOREIGN KEY (`created_by_id`) REFERENCES `user` (`id`),
+  ADD CONSTRAINT `FK_F6636BFBDE18E50B` FOREIGN KEY (`product_id_id`) REFERENCES `product` (`id`);
+
+--
+-- Constraints for table `product_model`
+--
+ALTER TABLE `product_model`
+  ADD CONSTRAINT `FK_76C90985B03A8386` FOREIGN KEY (`created_by_id`) REFERENCES `user` (`id`);
+
+--
+-- Constraints for table `product_type`
+--
+ALTER TABLE `product_type`
+  ADD CONSTRAINT `FK_1367588B03A8386` FOREIGN KEY (`created_by_id`) REFERENCES `user` (`id`);
+
+--
+-- Constraints for table `room`
+--
+ALTER TABLE `room`
+  ADD CONSTRAINT `FK_729F519BAE80F5DF` FOREIGN KEY (`department_id`) REFERENCES `department` (`id`),
+  ADD CONSTRAINT `FK_729F519BB03A8386` FOREIGN KEY (`created_by_id`) REFERENCES `user` (`id`);
+
+--
+-- Constraints for table `user`
+--
+ALTER TABLE `user`
+  ADD CONSTRAINT `FK_8D93D649C1A6E99` FOREIGN KEY (`user_room_id`) REFERENCES `room` (`id`);
+COMMIT;
+
+
