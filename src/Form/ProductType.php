@@ -24,8 +24,8 @@ class ProductType extends AbstractType
         $builder
             ->add('name')
             ->add('serialNumber')
-            ->add('ipAddress', TextType::class)
-            ->add('macAddress', TextType::class)
+            ->add('ipAddress', TextType::class, [ 'required'  => false ])
+            ->add('macAddress', TextType::class, [ 'required'  => false ])
             ->add('os', ChoiceType::class, [
                 'choices' => [
                     "Windows" => "Windows",
