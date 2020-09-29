@@ -119,10 +119,10 @@
                                     <th>Name</th>
                                     <th>DeviceType</th>
                                     <th>ProductModel</th>
-                                    <th>IpAddress</th>
-                                    <th>Price</th>
-                                    <th>History</th>
-                                    <th>Actions</th>
+                                    <th>Serial Number</th>
+                                    <th>Assigned User</th>
+                                    <th>Action</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -132,12 +132,12 @@
                                     <td>{{ product.name }}</td>
                                     <td>{{ product.modelType }}</td>
                                     <td>{{ product.productModel }}</td>
-                                    <td>{{ product.ipAddress }}</td>
-                                    <td>{{ product.price }}</td>
+                                    <td>{{ product.serialNumber }}</td>
+                                    <td>{{ product.assignToUser }}</td>
                                     <td>
                                         <button type="button" class="btn btn-sm color-na-darkblack-background text-white" data-toggle="modal" data-target="#assignToUser" value="{{ product.id }}" onclick="setIdProduct(this.value)">
                                             <i class="fas fa-cog"> </i>
-                                            History Action
+                                            Action
                                         </button>
                                     </td>
                                     <td>
