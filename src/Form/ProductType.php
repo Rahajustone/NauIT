@@ -52,6 +52,10 @@ class ProductType extends AbstractType
                 'class' => ProductModel::class,
                 'choice_label' => 'name'
             ])
+            ->add('assignToUser', EntityType::class, [
+                'class' => User::class,
+                'choice_label' => 'fullname'                
+            ])
             ->add('price')
             ->add('quantity', IntegerType::class, [
                 'data' => '1'
