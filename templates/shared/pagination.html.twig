@@ -3,7 +3,7 @@
     <ul class="pagination pagination-sm m-0 float-right">
         {% if pagination.hasPreviousPage %}
             <li class="page-item">
-                <a class="page-link" href="{{ path(pagination_path, {page: pagination.previousPage}) }}" rel="previous">
+                <a class="page-link" href="{{ path(pagination_path, {page: pagination.previousPage, protypeid: protypeid}) }}" rel="previous">
                     «
                 </a>
             </li>
@@ -21,13 +21,13 @@
                     <span class="page-link">{{ i }} </span>
                 </li>
             {% else %}
-                <li class="page-item"><a class="page-link" href="{{ path(pagination_path, {page: i, limit: pagination.getPageSize}) }}">{{ i }}</a></li>
+                <li class="page-item"><a class="page-link" href="{{ path('pagination_path', {page: i, limit: pagination.getPageSize, protypeid: protypeid}) }}">{{ i }}</a></li>
             {% endif %}
         {% endfor %}
 
         {% if pagination.hasNextPage %}
             <li class="page-item">
-                <a class="page-link" href="{{ path(pagination_path, {page: pagination.nextPage}) }}" rel="next">
+                <a class="page-link" href="{{ path(pagination_path, {page: pagination.nextPage, protypeid: protypeid}) }}" rel="next">
                     »
                 </a>
             </li>

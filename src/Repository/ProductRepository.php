@@ -21,12 +21,15 @@ class ProductRepository extends ServiceEntityRepository
     }
 
     // Pagination
-    public function findLatest(int $page = 1, int $limit): Paginator
+    public function findLatest(int $page = 1, int $limit, int $protypeid=null): Paginator
     {
         $qb = $this->createQueryBuilder('p')
             ->orderBy('p.createdAt', 'DESC')
-            // ->setParameter('now', new \DateTime())
         ;
+
+        if($protypeid) {
+            $qb->where('p.modelType = :protypeid')->setParameter('protypeid', $protypeid);
+        }
 
         return (new Paginator($qb))->paginate($page, $limit);
     }

@@ -114,7 +114,7 @@
                         <ul class="nav nav-pills flex-column">
                             {% for productType in  productsType%}
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">
+                                    <a href="{{ path('product_index_paginated', {page: 1, limit: 10, protypeid: productType.id}) }}" class="nav-link">
                                         {{ productType.name }}
                                         <span class="float-right text-success">
                                             <!-- <i class="fas fa-arrow-left text-sm"></i> -->

@@ -24,7 +24,7 @@ class ProductController extends AbstractController
 {
     /**
      * @Route("/", defaults={"page": "1", "_format"="html", "limit" = "10"}, methods={"GET"}, name="product_index")
-     * @Route("/page/{page<[1-9]\d*>}/{limit?}", defaults={"limit" = "10", "_format"="html"}, methods={"GET"}, name="product_index_paginated")
+     * @Route("/page/{page<[1-9]\d*>}/{limit?}/{protypeid?}", defaults={"limit" = "10", "_format"="html"}, methods={"GET"}, name="product_index_paginated")
      * @Cache(smaxage="10")
      * @param Request $request
      * @param int $page
@@ -34,13 +34,15 @@ class ProductController extends AbstractController
      * @param UserRepository $userRepository
      * @return Response
      */
-    public function index(Request $request, int $page, int $limit, string $_format, ProductRepository $productRepository, UserRepository $userRepository): Response
+    public function index(Request $request, int $page, int $limit, int $protypeid=null, string $_format, ProductRepository $productRepository, UserRepository $userRepository): Response
     {
+
         return $this->render('product/index.html.twig', [
-            'products' => $productRepository->findLatest($page, $limit),
+            'products' => $productRepository->findLatest($page, $limit, $protypeid),
             'users' => $userRepository->findAll(),
             'productPrices' => $productRepository->totalPrice(),
-            'unusedProducts' => $productRepository->getUnusedProducts()
+            'unusedProducts' => $productRepository->getUnusedProducts(),
+            'protypeid' => $protypeid
         ]);
     }
 
