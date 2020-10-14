@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * @Route("/producttype")
@@ -97,5 +98,36 @@ class ProductTypeController extends AbstractController
         }
 
         return $this->redirectToRoute('producttype_index');
+    }
+
+    /**
+     * @Route("/createProductTypeAjax", name="producttype_ajax", methods={"POST"})
+     */
+    public function createProductTypeAjax(Request $request, ProductTypeRepository $productTypeRepository)
+    {
+        $productName = $request->request->get('proTypeName');
+        if ($request->isXmlHttpRequest()) {
+
+            // Check for Unique
+            $isExistProductType = $productTypeRepository->findBy(['name' => $productName]);
+            if ($isExistProductType) {
+                return new JsonResponse(json_encode(["message" => "Dublicate Entries"]));
+            }
+
+            $productType = new ProductType();
+            $productType->setName($productName);
+            $productType->setCreatedBy($this->getUser());
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($productType);
+            $entityManager->flush();
+            
+            $resultResponse = ['id' => $productType->getId(), 'name' => $productType->getName()];
+            return new JsonResponse(json_encode($resultResponse));
+           
+
+        } else {
+            return new JsonResponse(['string' => "Opps. Something go wrong..."]);
+        }
     }
 }

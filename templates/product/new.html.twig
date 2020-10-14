@@ -68,5 +68,59 @@
             $("#product_serialNumber").val(generateSerialNumber());
         });
 
+        // Add New ProductType
+        $("#submitNewProductTypeModel").click(function () {
+            var data = {proTypeName : $('#product_type_name').val()};
+            if(data != null) {
+                $.ajax({
+                    url: "{{ path('producttype_ajax') }}",
+                    type: 'POST',
+                    data: data,
+                    success: function(data) {
+                        var result = JSON.parse(data);
+                        if (result.message) {
+                            alert(result.message);
+                        } else {
+                            $("#addNewProductTypeModel").modal('hide');
+                            var id = result.id;
+                            var name = result.name;
+                            $("#product_modelType").append($('<option selected>').val(id).text(name));
+                        }
+                    },
+                    error: function(data) {
+                        console.log(data);
+                    }
+                });
+            }
+        });
+
+        // Add New ProductType
+        $("#submitNewProductModelModel").click(function () {
+            var data = {proModelName : $('#product_model_name').val()};
+            if(data != null) {
+                $.ajax({
+                    url: "{{ path('productmodel_ajax') }}",
+                    type: 'POST',
+                    data: data,
+                    success: function(data) {
+                        var result = JSON.parse(data);
+                        if (result.message) {
+                            alert(result.message);
+                        } else {
+                            $("#addNewProductModelModel").modal('hide');
+                            var id = result.id;
+                            var name = result.name;
+                            $("#product_productModel").append($('<option selected>').val(id).text(name));
+                        }
+                    },
+                    error: function(data) {
+                        console.log(data);
+                    }
+                });
+            }
+
+        });
+
+
     </script>
 {% endblock %}
