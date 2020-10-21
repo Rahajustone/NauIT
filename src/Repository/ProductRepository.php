@@ -2,10 +2,10 @@
 
 namespace App\Repository;
 
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
 use App\Entity\Product;
 use App\Pagination\Paginator;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
  * @method Product|null find($id, $lockMode = null, $lockVersion = null)
@@ -67,6 +67,47 @@ class ProductRepository extends ServiceEntityRepository
             ->getQuery()
             ->getSingleScalarResult()
             ;
+    }
+
+
+    public function search($productsId, $devicetypes, $productModels, $users, $ipAddress, $minPrice, $maxPrice, $serialNumber)
+    {
+        $qb = $this->createQueryBuilder('p')->select('p.id', 'p.name', 'p.ipAddress', 'p.macAddress', 'p.os', 'p.price', 'p.createdAt', 'p.updatedAt', 'p.comments',   'p.status', 'p.serialNumber'
+        );
+
+        if($productsId) {
+            $qb->where('p.id IN (:ids)')->setParameter('ids', $productsId);
+        }
+
+        if ($devicetypes) {
+            $qb->andWhere('p.modelType IN (:devicetypes)')->setParameter('devicetypes', $devicetypes);
+        }
+
+        if ($productModels) {
+            $qb->andWhere('p.productModel IN (:productModels)')->setParameter('productModels', $productModels);
+        }
+
+        if ($users) {
+            $qb->andWhere('p.assignToUser IN (:users)')->setParameter('users', $users);
+        }
+
+        if($ipAddress) {
+            $qb->andWhere('p.ipAddress like :ipAddress')->setParameter('ipAddress', $ipAddress);
+        }
+
+        if ($minPrice > 0) {
+            $qb->andWhere('p.price > :minPrice')->setParameter('minPrice', $minPrice);
+        }
+
+        if ($maxPrice > 0) {
+            $qb->andWhere('p.price > :maxPrice')->setParameter('maxPrice', $maxPrice);
+        }
+
+        if($serialNumber) {
+            $qb->andWhere('p.serialNumber like :serialNumber')->setParameter('serialNumber', $serialNumber);
+        }
+
+        return $qb->getQuery()->getResult();
     }
 
     // /**

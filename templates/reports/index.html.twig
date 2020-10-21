@@ -1,0 +1,175 @@
+{% extends 'parent.html.twig' %}
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.6.4/css/buttons.dataTables.min.css">
+{% endblock %}
+
+{% block title %}Reports{% endblock %}
+
+{% block content %}
+    <div class="content-header px-5">
+        <div class="container-fluid">
+            <div class="row my-3">
+                <div class="col-sm-6">
+                    <h1 class="m-0 text-dark">Reports</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href=" {{ path('dashboard') }} ">Home</a></li>
+                        <li class="breadcrumb-item active">Reports</li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div>
+    </div>
+    
+    <section class="content px-5">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header py-2">
+                            <form method="GET" action="{{ path('reports') }}">
+                                <div class="form-row">
+                                    <div class="form-group col-md-3">
+                                        <label for="productName">Product Name</label>
+                                        <select class="form-control select2" id="product" name="products[]" multiple="multiple">
+                                            {% for product in products %}
+                                                <option value="{{ product.id }}"> {{ product.name }} </option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label for="devicetype">Device Type</label>
+                                        <select class="form-control select2" id="devicetype" name="devicetypes[]" multiple="multiple">
+                                            {% for deviceType in devicesType %}
+                                                <option value="{{ deviceType.id }}"> {{ deviceType.name }} </option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label for="productModel">Product Model</label>
+                                        <select class="form-control select2" id="productModel" name="productmodels[]" multiple="multiple" multiple="multiple">
+                                            {% for productModel in productsModel %}
+                                                <option value="{{ productModel.id }}"> {{ productModel.name }} </option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label for="user">Assigned User</label>
+                                        <select class="form-control select2" id="user" name="users[]" multiple="multiple">
+                                            {% for user in users %}
+                                                <option value="{{ user.id }}"> {{ user.fullname }} </option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-3">
+                                        <label for="IpAddress">IpAddress</label>
+                                        <input type="text" class="form-control" id="IpAddress" placeholder="IpAddress" name="ipaddress">
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label for="Price">Price</label>
+                                        <div class="row">
+                                            <div class="col">
+                                                <input type="number" class="form-control" id="Price" placeholder="min" name="minprice">
+                                            </div>
+                                            <div class="col">
+                                                <input type="number" class="form-control" id="price" placeholder="max" name="maxprice">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label for="serialNumber">Serial Number</label>
+                                        <input type="text" class="form-control" id="serialNumber" placeholder="Serial number" name="serialnumber">
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label class="text-muted">? Search</label>
+                                        <button class="btn btn-primary form-control" type="submit"> <i class="fa fa-search"></i> Search</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>        
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <table class="table display nowrap" id="productResult">
+                                <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Name</th>
+                                        <th>ipAddress</th>
+                                        <th>Mac Address</th>
+                                        <th>OS</th>
+                                        <th>Price</th>
+                                        <th>Created At</th>
+                                        <th>Updated At</th>
+                                        <th>Comments</th>
+                                        <th>Status</th>
+                                        <th>Serial Number</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for productResult in productsResult %}
+                                    <tr>
+                                        <td>{{ loop.index }}</td>
+                                        <td>{{ productResult.name }}</td>
+                                        <td>{{ productResult.macAddress }}</td>
+                                        <td>{{ productResult.ipAddress }}</td>
+                                        <td>{{ productResult.os }}</td>
+                                        <td>{{ productResult.price }}</td>
+                                        <td>{{ productResult.createdAt | date('Y-m-d') }}</td>
+                                        <td>{{ productResult.updatedAt | date('Y-m-d') }}</td>
+                                        <td>{{ productResult.comments }}</td>
+                                        <td>{{ productResult.status }}</td>
+                                        <td>{{ productResult.serialNumber }}</td>
+                                    {% else %}
+                                    <tr>
+                                        <td colspan="7">no records found</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
+{% block javascripts %}
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.6.4/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.6.4/js/buttons.flash.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.6.4/js/buttons.html5.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.6.4/js/buttons.print.min.js"></script>
+    <script src="{{ asset('plugins/select2/js/select2.full.min.js') }}"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('.select2').select2();
+        });
+
+        $('#productResult').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ]
+            // "paging": true,
+            // "lengthChange": false,
+            // "searching": false,
+            // "ordering": true,
+            // "info": true,
+            // "autoWidth": false,
+        });
+
+    </script>
+{% endblock %}

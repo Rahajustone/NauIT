@@ -40,6 +40,14 @@
                         </p>
                     </a>
                 </li>
+                <li class="nav-item  {% if 'reports' in current_path %}active{% endif %}">
+                    <a href="{{ path('reports') }}" class="nav-link">
+                        <i class="nav-icon fas fa-chart-bar"></i>
+                        <p>
+                            Reports
+                        </p>
+                    </a>
+                </li>
                 <li class="nav-item  {% if 'productmodel' in current_path %}active{% endif %}">
                     <a href="{{ path('productmodel_index') }}" class="nav-link">
                         <i class="nav-icon fas fa-info"></i>

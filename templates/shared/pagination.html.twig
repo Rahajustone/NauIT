@@ -21,7 +21,7 @@
                     <span class="page-link">{{ i }} </span>
                 </li>
             {% else %}
-                <li class="page-item"><a class="page-link" href="{{ path('pagination_path', {page: i, limit: pagination.getPageSize, protypeid: protypeid}) }}">{{ i }}</a></li>
+                <li class="page-item"><a class="page-link" href="{{ path(pagination_path, {page: i, limit: pagination.getPageSize, protypeid: protypeid}) }}">{{ i }}</a></li>
             {% endif %}
         {% endfor %}
 
