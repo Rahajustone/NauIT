@@ -1,7 +1,42 @@
 {% extends 'parent.html.twig' %}
 {% block stylesheets %}
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.6.4/css/buttons.dataTables.min.css">
+    <style type="text/css">
+        .dt-button .buttons-columnVisibility {
+            border: 0;
+            box-shadow: 0 1px 1px 0 rgba(60,75,100,.14), 0 2px 1px -1px rgba(60,75,100,.12), 0 1px 3px 0 rgba(60,75,100,.2);
+            color: #4f5d73;
+            background-color: #ebedef;
+            border-color: #ebedef;
+        }
+
+        div.dt-button-collection button.dt-button:active:not(.disabled), div.dt-button-collection button.dt-button.active:not(.disabled), div.dt-button-collection div.dt-button:active:not(.disabled), div.dt-button-collection div.dt-button.active:not(.disabled), div.dt-button-collection a.dt-button:active:not(.disabled), div.dt-button-collection a.dt-button.active:not(.disabled) {
+            background-color: #6610f2 !important;
+            color: white !important;
+            box-shadow: none;
+            background: linear-gradient(to bottom, #6610f2 0%, #6610f2 100%);
+        }
+
+        div.dt-button-collection button.dt-button:active:not(.disabled), div.dt-button-collection button.dt-button.active:not(.disabled), div.dt-button-collection div.dt-button:active:not(.disabled), div.dt-button-collection div.dt-button.active:not(.disabled), div.dt-button-collection a.dt-button:active:not(.disabled), div.dt-button-collection a.dt-button.active:not(.disabled) {
+            background-color: #dadada;
+            background: -webkit-linear-gradient(top, #f0f0f0 0%, #dadada 100%);
+            background: -moz-linear-gradient(top, #f0f0f0 0%, #dadada 100%);
+            background: -ms-linear-gradient(top, #f0f0f0 0%, #dadada 100%);
+            background: -o-linear-gradient(top, #f0f0f0 0%, #dadada 100%);
+            background: linear-gradient(to bottom, #6610f2 0%, #6610f2 100%);
+            filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#f0f0f0', EndColorStr='#dadada');
+            box-shadow: none;
+        }
+
+        table.dataTable {
+            width: 100%;
+            margin: 0 !important;
+            clear: both;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+
+    </style>
 {% endblock %}
 
 {% block title %}Reports{% endblock %}
@@ -99,11 +134,14 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
-                            <table class="table display nowrap" id="productResult">
+                            <table class=" table display  nowrap" id="productResult">
                                 <thead>
                                     <tr>
                                         <th>Id</th>
                                         <th>Name</th>
+                                        <th>Assigned To</th>
+                                        <th>Product Model</th>
+                                        <th>Product Type</th>
                                         <th>ipAddress</th>
                                         <th>Mac Address</th>
                                         <th>OS</th>
@@ -120,15 +158,18 @@
                                     <tr>
                                         <td>{{ loop.index }}</td>
                                         <td>{{ productResult.name }}</td>
-                                        <td>{{ productResult.macAddress }}</td>
-                                        <td>{{ productResult.ipAddress }}</td>
+                                        <td>{{ productResult.full_name }}</td>
+                                        <td>{{ productResult.pm_name }}</td>
+                                        <td>{{ productResult.pt_name }}</td>
+                                        <td>{{ productResult.mac_address }}</td>
+                                        <td>{{ productResult.ip_address }}</td>
                                         <td>{{ productResult.os }}</td>
                                         <td>{{ productResult.price }}</td>
-                                        <td>{{ productResult.createdAt | date('Y-m-d') }}</td>
-                                        <td>{{ productResult.updatedAt | date('Y-m-d') }}</td>
+                                        <td>{{ productResult.created_at | date('Y-m-d') }}</td>
+                                        <td>{{ productResult.updated_at | date('Y-m-d') }}</td>
                                         <td>{{ productResult.comments }}</td>
                                         <td>{{ productResult.status }}</td>
-                                        <td>{{ productResult.serialNumber }}</td>
+                                        <td>{{ productResult.serial_number }}</td>
                                     {% else %}
                                     <tr>
                                         <td colspan="7">no records found</td>
@@ -152,6 +193,8 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.6.4/js/buttons.html5.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.6.4/js/buttons.print.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.6/js/dataTables.responsive.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.6.4/js/buttons.colVis.min.js"></script>
     <script src="{{ asset('plugins/select2/js/select2.full.min.js') }}"></script>
     <script type="text/javascript">
         $(document).ready(function() {
@@ -160,9 +203,15 @@
 
         $('#productResult').DataTable({
             dom: 'Bfrtip',
+            lengthChange: true,
             buttons: [
-                'copy', 'csv', 'excel', 'pdf', 'print'
-            ]
+                'colvis', 'copy', 'excel', 'print'
+            ],
+            extend: 'pdfHtml5',
+            orientation: 'landscape',
+            pageSize: 'LEGAL',
+            "scrollX": true,
+            
             // "paging": true,
             // "lengthChange": false,
             // "searching": false,

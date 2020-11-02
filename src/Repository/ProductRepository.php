@@ -6,6 +6,8 @@ use App\Entity\Product;
 use App\Pagination\Paginator;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\DBAL\DBALException;
+use Doctrine\ORM\NonUniqueResultException;
 
 /**
  * @method Product|null find($id, $lockMode = null, $lockVersion = null)
@@ -72,42 +74,56 @@ class ProductRepository extends ServiceEntityRepository
 
     public function search($productsId, $devicetypes, $productModels, $users, $ipAddress, $minPrice, $maxPrice, $serialNumber)
     {
-        $qb = $this->createQueryBuilder('p')->select('p.id', 'p.name', 'p.ipAddress', 'p.macAddress', 'p.os', 'p.price', 'p.createdAt', 'p.updatedAt', 'p.comments',   'p.status', 'p.serialNumber'
-        );
+        try {
 
-        if($productsId) {
-            $qb->where('p.id IN (:ids)')->setParameter('ids', $productsId);
+            $sql = "SELECT DISTINCT p.name, p.mac_address, p.ip_address, p.os, p.price, p.created_at, p.updated_at, p.comments, p.status, p.serial_number,  au.full_name, pm.name as pm_name, pt.name as pt_name from product p 
+            LEFT JOIN user au on p.assign_to_user_id =  au.id
+            LEFT JOIN product_model pm on p.product_model_id =  pm.id
+            LEFT JOIN product_type pt on p.model_type_id = pt.id WHERE p.id > 0 ";
+
+            if($productsId) {
+                $productsLists = "('".implode("','", $productsId)."')";
+                $sql .= " AND p.id IN $productsLists";
+            }
+
+            if ($devicetypes) {
+                $devicetypesList = "('".implode("','", $devicetypes)."')";
+                $sql .= " AND p.model_type_id IN $devicetypesList";
+            }
+
+            if ($productModels) {
+                $productModelsList = "('".implode("','", $productModels)."')";
+                $sql .= " AND pm.id IN $productModelsList";
+            }
+
+            if ($users) {
+                $userLists = "('".implode("','", $users)."')";
+                $sql .= " AND p.assign_to_user_id IN $userLists";
+            }
+
+            if($ipAddress) {
+                $sql .= " AND p.ip_address LIKE %$ipAddress%";
+            }
+
+            if ($minPrice > 0) {
+                $sql .= " AND p.price > $minPrice";
+            }
+
+            if ($maxPrice > 0) {
+                $sql .= " AND p.price > $maxPrice";
+            }
+
+            if($serialNumber) {
+                $sql .= " AND p.serial_number > $serialNumber";
+            }
+       
+            $stmt = $this->getEntityManager()->getConnection()->prepare($sql);
+        } catch (DBALException $e) {
+        
         }
 
-        if ($devicetypes) {
-            $qb->andWhere('p.modelType IN (:devicetypes)')->setParameter('devicetypes', $devicetypes);
-        }
-
-        if ($productModels) {
-            $qb->andWhere('p.productModel IN (:productModels)')->setParameter('productModels', $productModels);
-        }
-
-        if ($users) {
-            $qb->andWhere('p.assignToUser IN (:users)')->setParameter('users', $users);
-        }
-
-        if($ipAddress) {
-            $qb->andWhere('p.ipAddress like :ipAddress')->setParameter('ipAddress', $ipAddress);
-        }
-
-        if ($minPrice > 0) {
-            $qb->andWhere('p.price > :minPrice')->setParameter('minPrice', $minPrice);
-        }
-
-        if ($maxPrice > 0) {
-            $qb->andWhere('p.price > :maxPrice')->setParameter('maxPrice', $maxPrice);
-        }
-
-        if($serialNumber) {
-            $qb->andWhere('p.serialNumber like :serialNumber')->setParameter('serialNumber', $serialNumber);
-        }
-
-        return $qb->getQuery()->getResult();
+        $stmt->execute();
+        return $stmt->fetchAll();
     }
 
     // /**

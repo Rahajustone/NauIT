@@ -64,6 +64,8 @@ class ReportsController extends AbstractController
         $result = $productRepository->search($productsId, $devicesTypeId, $productModelsId, $usersId, $ipAddress, $minPrice, $maxPrice, $serialNumber);
 
 
+         // TODO
+
 
    }
     
