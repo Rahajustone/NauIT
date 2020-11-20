@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Product;
 use App\Entity\ProductHistory;
+use App\Entity\User;
 use App\Repository\ProductHistoryRepository;
 use App\Form\ProductType;
 use App\Repository\ProductRepository;
@@ -15,7 +16,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 /**
  * @Route("/product")
  * @IsGranted("ROLE_ADMIN")
@@ -51,13 +52,31 @@ class ProductController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    public function new(Request $request): Response
+    public function new(Request $request, UserRepository $userRepository, UserPasswordEncoderInterface $passwordEncoder): Response
     {
         $product = new Product();
         $form = $this->createForm(ProductType::class, $product);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && !$form->isEmpty()) {
+
+            $userFullName = ($request->request->get('product')['assignToUser']);
+            
+            if(!$userRepository->findById($userFullName)) {
+                $user = new User();
+                $user->setFullName($userFullName);
+                $user->setUsername(trim($userFullName));
+                $user->setEmail(trim($userFullName).'@na.edu');
+                $user->setPassword($passwordEncoder->encodePassword($user, 'xonait123'));
+                $user->setRoles(['ROLE_USER']);
+
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($user);
+                $entityManager->flush();
+
+                $product->setAssignToUser($user);
+            }
+
             $entityManager = $this->getDoctrine()->getManager();
             $product->setCreatedBy($this->getUser());
             $entityManager->persist($product);
@@ -90,12 +109,29 @@ class ProductController extends AbstractController
      * @param Product $product
      * @return Response
      */
-    public function edit(Request $request, Product $product): Response
+    public function edit(Request $request, Product $product, UserRepository $userRepository, UserPasswordEncoderInterface $passwordEncoder): Response
     {
         $form = $this->createForm(ProductType::class, $product);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && !$form->isEmpty()) {
+            $userFullName = ($request->request->get('product')['assignToUser']);
+            
+            if(!$userRepository->findById($userFullName)) {
+                $user = new User();
+                $user->setFullName($userFullName);
+                $user->setUsername(trim($userFullName));
+                $user->setEmail(trim($userFullName).'@na.edu');
+                $user->setPassword($passwordEncoder->encodePassword($user, 'xonait123'));
+                $user->setRoles(['ROLE_USER']);
+
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($user);
+                $entityManager->flush();
+
+                $product->setAssignToUser($user);
+            }            
+
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('product_index');
@@ -142,7 +178,7 @@ class ProductController extends AbstractController
                 // If user is in use database
                 $userExist = $userRepository->find($userId);
                 if (!$userExist) {
-                    $this->addFlash('danger', 'While assigend user Not Found!');
+                    $this->addFlash('danger', 'While assigned user Not Found!');
                     
                     return $this->redirectToRoute('product_index'); 
                 }

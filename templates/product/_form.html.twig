@@ -68,7 +68,7 @@
                             Add new Product Type
                         </button>
                         <div class="input-group">
-                            {{ form_widget(form.modelType, {attr: {'class' : 'form-control'}}) }}
+                            {{ form_widget(form.modelType, {attr: {'class' : 'form-control select2'}}) }}
                         </div>
                         <small>{{ form_help(form.modelType) }}</small>
                         <div class="form-error">
@@ -81,7 +81,7 @@
                             Add new Product Model
                         </button>
                         <div class="input-group">
-                            {{ form_widget(form.productModel, {attr: {'class' : 'form-control'}}) }}
+                            {{ form_widget(form.productModel, {attr: {'class' : 'form-control select2'}}) }}
                         </div>
                         <small>{{ form_help(form.productModel) }}</small>
                         <div class="form-error">
@@ -91,7 +91,15 @@
                     {{ form_row(form.price) }}
                 </div>
                 <div class="col-md-12">
-                    {{ form_row(form.assignToUser) }}
+                    {# {{ form_row(form.assignToUser) }} #}
+                    {{ form_label(form.assignToUser, "Assign to User") }}                    
+                    <div class="input-group">
+                        {{ form_widget(form.assignToUser, {attr: {'class' : 'form-control tagstrue'}}) }}
+                    </div>
+                    <small>{{ form_help(form.assignToUser) }}</small>
+                    <div class="form-error">
+                        {{ form_errors(form.assignToUser) }}
+                    </div>
                 </div>
                 <div class="col-md-12">
                     {{ form_row(form.comments) }}
